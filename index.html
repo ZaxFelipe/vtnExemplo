@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VITIN Design Co. — Seu próximo site começa aqui</title>
+<meta name="description" content="Sites profissionais, modernos e personalizados. Projetos a partir de R$ 1.000.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="VITIN Design Co. — Seu próximo site começa aqui">
+<meta property="og:description" content="Sites profissionais, modernos e personalizados.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+/* ───────── Tokens ─────────
+   Light (on #ffffff):  label #1d1d1f 16.8:1 · secondary #6e6e73 5.1:1 · accent #0066cc 5.6:1
+   Dark  (on #000000):  label #f5f5f7 19.3:1 · secondary #a1a1a6 8.0:1 · accent #3ea2ff 7.6:1
+   Filled button: #0071e3 / #0a84ff with white semibold 17px (4.6:1 / 3.7:1 bold)            */
+:root{
+  --bg:#ffffff;
+  --bg-2:#f5f5f7;
+  --card:#ffffff;
+  --label:#1d1d1f;
+  --label-2:#6e6e73;
+  --sep:rgba(0,0,0,.1);
+  --accent:#0066cc;
+  --fill:#0071e3;
+  --fill-hover:#0077ed;
+  --on-fill:#ffffff;
+  --brand-a:#0058d0;   /* signature gradient, light */
+  --brand-b:#0093c4;
+  --bar:rgba(255,255,255,.72);
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.06);
+  --m-frame:#e8e8ed; --m-a:#0071e3; --m-b:rgba(0,113,227,.35); --m-c:rgba(0,0,0,.12); --m-d:#1d1d1f;
+  --success:#248a3d;
+  --radius:22px;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue","Segoe UI",Roboto,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#000000;
+    --bg-2:#0b0b0d;
+    --card:#1c1c1e;
+    --label:#f5f5f7;
+    --label-2:#a1a1a6;
+    --sep:rgba(255,255,255,.14);
+    --accent:#3ea2ff;
+    --fill:#0a84ff;
+    --fill-hover:#2a95ff;
+    --brand-a:#1e90ff;  /* the logo's own gradient */
+    --brand-b:#00e5ff;
+    --bar:rgba(22,22,24,.72);
+    --shadow:none;
+    --m-frame:#2c2c2e; --m-a:#1e90ff; --m-b:rgba(30,144,255,.4); --m-c:rgba(255,255,255,.16); --m-d:#f5f5f7;
+    --success:#30d158;
+  }
+}
+@media (prefers-contrast: more){
+  :root{ --label-2:var(--label); --sep:currentColor; }
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+body{
+  margin:0;background:var(--bg);color:var(--label);
+  font:400 17px/1.47 var(--font);letter-spacing:-.022em;
+  -webkit-font-smoothing:antialiased;
+}
+img,svg{display:block;max-width:100%}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
+.wrap{width:min(1080px,100% - 32px);margin-inline:auto}
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:16px;top:12px;z-index:100;background:var(--card);padding:10px 14px;border-radius:10px}
+
+/* ───────── Nav (the only glass surface: functional layer) ───────── */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:var(--bar);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid var(--sep);
+}
+@media (prefers-reduced-transparency: reduce){ .nav{background:var(--bg);backdrop-filter:none;-webkit-backdrop-filter:none} }
+.nav-in{display:flex;align-items:center;gap:16px;height:52px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--label);font-weight:600;font-size:17px;letter-spacing:-.01em}
+.brand:hover{text-decoration:none}
+.brand img{width:28px;height:28px;border-radius:7px}
+.links{display:flex;gap:4px;margin-left:auto;align-items:center}
+.links a{color:var(--label);font-size:14px;padding:8px 12px;border-radius:999px;opacity:.85}
+.links a:hover{opacity:1;text-decoration:none;background:var(--sep)}
+.links .btn-sm{background:var(--fill);color:var(--on-fill);opacity:1;font-weight:500;margin-left:6px}
+.links .btn-sm:hover{background:var(--fill-hover)}
+.menu-btn{display:none;margin-left:auto;width:44px;height:44px;border:0;background:none;color:var(--label);border-radius:10px;cursor:pointer}
+.menu-btn svg{width:22px;height:22px;margin:auto}
+@media (max-width:820px){
+  .menu-btn{display:block}
+  .links{
+    display:none;position:absolute;left:0;right:0;top:52px;
+    flex-direction:column;align-items:stretch;gap:0;padding:8px 16px 16px;
+    background:var(--bg);border-bottom:1px solid var(--sep);
+  }
+  .links.open{display:flex}
+  .links a{font-size:17px;padding:14px 4px;border-radius:0;border-bottom:1px solid var(--sep);opacity:1}
+  .links a:hover{background:none}
+  .links .btn-sm{margin:14px 0 0;text-align:center;border-radius:12px;border:0}
+}
+
+/* ───────── Type & buttons ───────── */
+h1,h2,h3{margin:0;font-weight:700;letter-spacing:-.03em;line-height:1.08}
+h1{font-size:clamp(44px,8vw,88px);letter-spacing:-.045em;line-height:1.02}
+h2{font-size:clamp(32px,5vw,52px)}
+h3{font-size:21px;letter-spacing:-.02em;line-height:1.2;font-weight:600}
+.eyebrow{font-size:14px;font-weight:600;color:var(--accent);letter-spacing:0;margin:0 0 10px}
+.lead{font-size:clamp(19px,2.2vw,24px);line-height:1.38;color:var(--label-2);letter-spacing:-.02em}
+.muted{color:var(--label-2)}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:48px;padding:0 24px;border-radius:999px;
+  font:600 17px/1 var(--font);letter-spacing:-.01em;cursor:pointer;border:0;
+  transition:background-color .2s, transform .2s;
+}
+.btn:hover{text-decoration:none}
+.btn:active{transform:scale(.98)}
+.btn-fill{background:var(--fill);color:var(--on-fill)}
+.btn-fill:hover{background:var(--fill-hover)}
+.btn-plain{background:none;color:var(--accent);padding:0 8px}
+.btn-plain:hover{text-decoration:underline}
+.btn-tint{background:var(--bg-2);color:var(--label);border:1px solid var(--sep)}
+.btn-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+
+/* ───────── Sections ───────── */
+section{padding:clamp(72px,10vw,128px) 0}
+section.alt{background:var(--bg-2)}
+.sec-head{max-width:720px;margin-bottom:48px}
+.sec-head .lead{margin:16px 0 0}
+
+/* Hero — the one signature moment */
+.hero{text-align:center;padding:clamp(80px,14vw,160px) 0 clamp(64px,10vw,112px)}
+.hero h1 .grad{
+  background:linear-gradient(90deg,var(--brand-a),var(--brand-b));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+@media (prefers-contrast: more){ .hero h1 .grad{background:none;color:var(--accent)} }
+.hero .lead{max-width:640px;margin:24px auto 0}
+.hero .price{margin:20px 0 36px;font-size:17px;color:var(--label-2)}
+.hero .price b{color:var(--label);font-weight:600}
+.hero .btn-row{justify-content:center}
+
+/* Quem sou */
+.about{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(32px,6vw,80px);align-items:start}
+.about p{font-size:19px;line-height:1.5;color:var(--label-2);margin:20px 0 0}
+.about p b{color:var(--label);font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:28px 24px;margin-top:40px}
+.stats div{border-top:1px solid var(--sep);padding-top:14px}
+.stats b{display:block;font-size:40px;font-weight:700;letter-spacing:-.03em;line-height:1}
+.stats span{display:block;margin-top:6px;font-size:15px;color:var(--label-2)}
+.panel{background:var(--card);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);border:1px solid var(--sep)}
+.panel h3{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:var(--label-2);margin-bottom:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--success)}
+.list{list-style:none;margin:0;padding:0}
+.list li{padding:14px 0;border-bottom:1px solid var(--sep);font-size:17px}
+.list li:last-child{border-bottom:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.chips span{font-size:14px;padding:6px 12px;border-radius:999px;background:var(--bg-2);color:var(--label-2);border:1px solid var(--sep)}
+
+/* Serviços */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.svc{background:var(--card);border-radius:var(--radius);padding:24px;border:1px solid var(--sep);box-shadow:var(--shadow);display:flex;flex-direction:column}
+.svc .mock{border-radius:14px;background:var(--bg-2);padding:14px;margin-bottom:22px}
+.svc .mock svg{width:100%;height:auto}
+.svc p{margin:8px 0 20px;color:var(--label-2);font-size:16px}
+.svc .price{margin-top:auto;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;padding-top:16px;border-top:1px solid var(--sep)}
+.svc .price s{color:var(--label-2);font-size:15px}
+.svc .price b{font-size:21px;font-weight:700;letter-spacing:-.02em}
+.svc .price .tag{font-size:13px;font-weight:600;color:var(--success)}
+.svc .price .ask{font-size:16px;color:var(--label-2)}
+.svc .price a{margin-left:auto;font-size:15px;font-weight:500}
+
+/* Como funciona */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;counter-reset:s;list-style:none;margin:0;padding:0}
+.steps li{position:relative;padding-top:56px}
+.steps li::before{
+  counter-increment:s;content:counter(s);
+  position:absolute;top:0;left:0;width:40px;height:40px;border-radius:50%;
+  display:grid;place-items:center;font-weight:600;font-size:17px;
+  background:var(--card);border:1px solid var(--sep);color:var(--label);
+}
+.steps li:not(:last-child)::after{content:"";position:absolute;top:20px;left:52px;right:-8px;height:1px;background:var(--sep)}
+.steps p{margin:8px 0 0;color:var(--label-2);font-size:16px}
+.note{margin-top:48px;display:flex;flex-wrap:wrap;align-items:center;gap:16px 24px;justify-content:space-between;padding:24px 28px;border-radius:var(--radius);background:var(--card);border:1px solid var(--sep)}
+.note p{margin:0;font-size:17px}
+
+/* Avaliações */
+.rating{display:flex;align-items:center;gap:28px;flex-wrap:wrap;margin-bottom:40px}
+.rating .big{font-size:64px;font-weight:700;letter-spacing:-.04em;line-height:1}
+.stars{color:#ff9f0a;letter-spacing:2px;font-size:17px}
+.bars{display:grid;gap:6px;min-width:220px;flex:0 1 280px}
+.bars div{display:grid;grid-template-columns:14px 1fr 24px;gap:10px;align-items:center;font-size:13px;color:var(--label-2)}
+.bars i{display:block;height:6px;border-radius:3px;background:var(--sep);overflow:hidden}
+.bars i::after{content:"";display:block;height:100%;width:var(--w);background:var(--label-2)}
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.rev{background:var(--card);border-radius:var(--radius);padding:24px;border:1px solid var(--sep);margin:0}
+.rev blockquote{margin:12px 0 18px;font-size:16px;line-height:1.5}
+.rev figcaption{display:flex;align-items:center;gap:12px;font-size:15px}
+.rev .av{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:600;background:var(--bg-2);border:1px solid var(--sep)}
+.rev small{display:block;color:var(--label-2);font-size:13px}
+.rev[hidden]{display:none}
+.more{margin-top:28px;text-align:center}
+
+/* FAQ */
+.faq{max-width:820px}
+.faq details{border-bottom:1px solid var(--sep)}
+.faq summary{
+  list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;
+  min-height:44px;padding:20px 0;font-size:19px;font-weight:600;letter-spacing:-.02em;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";flex:none;width:10px;height:10px;border-right:2px solid var(--label-2);border-bottom:2px solid var(--label-2);transform:rotate(45deg) translate(-3px,-3px);transition:transform .25s}
+.faq details[open] summary::after{transform:rotate(225deg) translate(-2px,-2px)}
+.faq details p{margin:0 0 22px;color:var(--label-2);max-width:68ch}
+
+/* CTA final */
+.cta{text-align:center}
+.cta .lead{max-width:600px;margin:20px auto 36px}
+.cta .btn-row{justify-content:center}
+.assure{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 24px;margin-top:28px;font-size:15px;color:var(--label-2)}
+.assure span::before{content:"✓ ";color:var(--success);font-weight:600}
+
+/* Footer */
+footer{background:var(--bg-2);border-top:1px solid var(--sep);padding:48px 0 32px;font-size:14px;color:var(--label-2)}
+.fcols{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:32px}
+footer h4{margin:0 0 12px;font-size:14px;font-weight:600;color:var(--label);letter-spacing:-.01em}
+footer ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+footer a{color:var(--label-2)}
+footer a:hover{color:var(--label)}
+.fbrand p{margin:12px 0 0;max-width:34ch;line-height:1.5}
+.mail{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.copy{font:500 13px var(--font);padding:6px 12px;min-height:32px;border-radius:999px;border:1px solid var(--sep);background:var(--card);color:var(--label);cursor:pointer}
+.soon{font-size:12px;color:var(--label-2);border:1px solid var(--sep);border-radius:6px;padding:2px 6px;margin-left:6px;white-space:nowrap}
+.legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--sep);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
+
+/* Toast — feedback in the interface, not an alert */
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;
+  background:var(--label);color:var(--bg);font-size:15px;font-weight:500;padding:12px 18px;border-radius:999px;transition:.25s;z-index:60}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* Reveal on scroll (skipped with reduced motion) */
+@media (prefers-reduced-motion: no-preference){
+  .js .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1)}
+  .js .reveal.in{opacity:1;transform:none}
+}
+
+/* ───────── Responsive ───────── */
+@media (max-width:960px){
+  .grid3,.reviews{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:repeat(2,1fr);gap:36px 20px}
+  .steps li::after{display:none}
+  .fcols{grid-template-columns:1fr 1fr}
+}
+@media (max-width:720px){
+  .about{grid-template-columns:1fr}
+  .grid3,.reviews,.steps{grid-template-columns:1fr}
+  .fcols{grid-template-columns:1fr}
+  .note{padding:20px}
+  .hero .btn-row .btn{width:100%}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Pular para o conteúdo</a>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" aria-label="VITIN Design Co., início">
+      <img src="favicon.svg" alt="" width="28" height="28">
+      <span>VITIN Design Co.</span>
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false" aria-controls="links">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <nav class="links" id="links" aria-label="Principal">
+      <a href="#quem-sou">Quem sou</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#avaliacoes">Avaliações</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn-sm" href="#contato">Pedir orçamento</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <!-- Hero -->
+  <div class="wrap hero" id="top">
+    <h1>Seu próximo site<br><span class="grad">começa aqui.</span></h1>
+    <p class="lead">Sites profissionais, modernos e personalizados para transformar sua presença digital.</p>
+    <p class="price"><b>Projetos a partir de R$ 1.000</b> · valor final conforme escopo e funcionalidades.</p>
+    <div class="btn-row">
+      <a class="btn btn-fill" href="#contato">Pedir orçamento</a>
+      <a class="btn btn-plain" href="#como-funciona">Ver como funciona ›</a>
+    </div>
+  </div>
+
+  <!-- Quem sou -->
+  <section class="alt" id="quem-sou">
+    <div class="wrap about">
+      <div class="reveal">
+        <p class="eyebrow">Quem sou</p>
+        <h2>Vitin. 18 anos, 2 criando sites.</h2>
+        <p>Criador de sites profissionais, desenvolvedor web e criador de soluções digitais. À frente da <b>VITIN Design Co.</b>, transformo ideias em projetos modernos, funcionais e profissionais, com o compromisso de quem coloca o próprio nome em cada entrega.</p>
+        <div class="stats">
+          <div><b>100+</b><span>Sites entregues</span></div>
+          <div><b>2 anos</b><span>De experiência</span></div>
+          <div><b>7 dias</b><span>Entrega média (dias úteis)</span></div>
+          <div><b>4,8</b><span>Nota média de 25 avaliações</span></div>
+        </div>
+      </div>
+      <div class="panel reveal">
+        <h3><span class="dot" aria-hidden="true"></span>Ramo de atuação · disponível para projetos</h3>
+        <ul class="list">
+          <li>Sites profissionais</li>
+          <li>Desenvolvimento web</li>
+          <li>Soluções digitais</li>
+          <li>Performance e SEO</li>
+          <li>Projetos personalizados</li>
+        </ul>
+        <div class="chips" aria-label="Tecnologias">
+          <span>React</span><span>JavaScript</span><span>HTML e CSS</span><span>UI/UX</span><span>Design responsivo</span><span>SEO</span><span>Performance</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Serviços -->
+  <section id="servicos">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Serviços</p>
+        <h2>Soluções para cada momento.</h2>
+        <p class="lead">Do primeiro site da sua marca a um sistema completo, sempre com layout exclusivo.</p>
+      </div>
+      <div class="grid3">
+        <article class="svc reveal">
+          <div class="mock"><svg viewBox="0 0 120 84" aria-hidden="true"><rect width="120" height="84" rx="6" fill="var(--card)"/><rect x="0" y="0" width="120" height="12" rx="6" fill="var(--m-frame)"/><circle cx="8" cy="6" r="2" fill="#ff5f57"/><circle cx="14" cy="6" r="2" fill="#febc2e"/><circle cx="20" cy="6" r="2" fill="#28c840"/><rect x="14" y="22" width="62" height="10" rx="2" fill="var(--m-d)"/><rect x="14" y="37" width="92" height="5" rx="2" fill="var(--m-c)"/><rect x="14" y="46" width="70" height="5" rx="2" fill="var(--m-c)"/><rect x="14" y="59" width="36" height="12" rx="6" fill="var(--m-a)"/><rect x="54" y="59" width="36" height="12" rx="6" fill="none" stroke="var(--m-a)"/></svg></div>
+          <h3>Landing Pages</h3>
+          <p>Páginas de alta conversão, rápidas e otimizadas.</p>
+          <div class="price"><s>R$ 1.000</s><b>R$ 600</b><span class="tag">Promoção</span><a href="#contato" aria-label="Pedir orçamento de landing page">Pedir ›</a></div>
+        </article>
+        <article class="svc reveal">
+          <div class="mock"><svg viewBox="0 0 120 84" aria-hidden="true"><rect width="120" height="84" rx="6" fill="var(--card)"/><rect width="120" height="12" rx="6" fill="var(--m-frame)"/><circle cx="8" cy="6" r="2" fill="#ff5f57"/><circle cx="14" cy="6" r="2" fill="#febc2e"/><circle cx="20" cy="6" r="2" fill="#28c840"/><rect x="14" y="22" width="92" height="9" rx="2" fill="var(--m-d)"/><rect x="14" y="36" width="28" height="36" rx="3" fill="var(--m-a)"/><rect x="46" y="36" width="28" height="36" rx="3" fill="var(--m-b)"/><rect x="78" y="36" width="28" height="36" rx="3" fill="var(--m-c)"/></svg></div>
+          <h3>Sites Institucionais</h3>
+          <p>Presença profissional completa para sua empresa.</p>
+          <div class="price"><s>R$ 1.500</s><b>R$ 800</b><span class="tag">Promoção</span><a href="#contato" aria-label="Pedir orçamento de site institucional">Pedir ›</a></div>
+        </article>
+        <article class="svc reveal">
+          <div class="mock"><svg viewBox="0 0 120 84" aria-hidden="true"><rect width="120" height="84" rx="6" fill="var(--card)"/><rect width="120" height="12" rx="6" fill="var(--m-frame)"/><circle cx="8" cy="6" r="2" fill="#ff5f57"/><circle cx="14" cy="6" r="2" fill="#febc2e"/><circle cx="20" cy="6" r="2" fill="#28c840"/><rect x="14" y="20" width="28" height="26" rx="3" fill="var(--m-b)"/><rect x="46" y="20" width="28" height="26" rx="3" fill="var(--m-c)"/><rect x="78" y="20" width="28" height="26" rx="3" fill="var(--m-b)"/><rect x="14" y="50" width="28" height="7" rx="3.5" fill="var(--m-a)"/><rect x="46" y="50" width="28" height="7" rx="3.5" fill="var(--m-a)"/><rect x="78" y="50" width="28" height="7" rx="3.5" fill="var(--m-a)"/><rect x="14" y="63" width="92" height="9" rx="4.5" fill="none" stroke="var(--m-c)"/></svg></div>
+          <h3>Lojas Virtuais</h3>
+          <p>Venda online com checkout e gestão.</p>
+          <div class="price"><span class="ask">Sob consulta</span><a href="#contato" aria-label="Pedir orçamento de loja virtual">Pedir ›</a></div>
+        </article>
+        <article class="svc reveal">
+          <div class="mock"><svg viewBox="0 0 120 84" aria-hidden="true"><rect width="120" height="84" rx="6" fill="var(--card)"/><rect width="120" height="12" rx="6" fill="var(--m-frame)"/><circle cx="8" cy="6" r="2" fill="#ff5f57"/><circle cx="14" cy="6" r="2" fill="#febc2e"/><circle cx="20" cy="6" r="2" fill="#28c840"/><rect x="14" y="20" width="22" height="52" rx="3" fill="var(--m-c)"/><circle cx="25" cy="29" r="4" fill="var(--m-a)"/><rect x="40" y="20" width="66" height="12" rx="3" fill="var(--m-d)"/><rect x="40" y="36" width="32" height="36" rx="3" fill="var(--m-b)"/><rect x="76" y="36" width="30" height="36" rx="3" fill="var(--m-c)"/><path d="M44 64 L52 54 L58 59 L68 46" stroke="var(--m-a)" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+          <h3>Sistemas Web</h3>
+          <p>Dashboards, áreas logadas e automações.</p>
+          <div class="price"><span class="ask">Sob consulta</span><a href="#contato" aria-label="Pedir orçamento de sistema web">Pedir ›</a></div>
+        </article>
+        <article class="svc reveal">
+          <div class="mock"><svg viewBox="0 0 120 84" aria-hidden="true"><rect width="120" height="84" rx="6" fill="var(--card)"/><rect width="120" height="12" rx="6" fill="var(--m-frame)"/><circle cx="8" cy="6" r="2" fill="#ff5f57"/><circle cx="14" cy="6" r="2" fill="#febc2e"/><circle cx="20" cy="6" r="2" fill="#28c840"/><rect x="14" y="20" width="42" height="26" rx="3" fill="var(--m-c)"/><circle cx="28" cy="31" r="5" fill="var(--m-a)"/><rect x="60" y="20" width="46" height="26" rx="3" fill="var(--m-b)"/><rect x="14" y="50" width="46" height="22" rx="3" fill="var(--m-b)"/><rect x="64" y="50" width="42" height="22" rx="3" fill="var(--m-c)"/></svg></div>
+          <h3>Portfólios Profissionais</h3>
+          <p>Mostre seu trabalho com clareza e elegância.</p>
+          <div class="price"><span class="ask">Sob consulta</span><a href="#contato" aria-label="Pedir orçamento de portfólio">Pedir ›</a></div>
+        </article>
+        <article class="svc reveal">
+          <div class="mock"><svg viewBox="0 0 120 84" aria-hidden="true"><rect width="120" height="84" rx="6" fill="var(--card)"/><rect width="120" height="12" rx="6" fill="var(--m-frame)"/><circle cx="8" cy="6" r="2" fill="#ff5f57"/><circle cx="14" cy="6" r="2" fill="#febc2e"/><circle cx="20" cy="6" r="2" fill="#28c840"/><rect x="14" y="20" width="92" height="52" rx="4" fill="none" stroke="var(--m-a)" stroke-dasharray="3 3"/><rect x="22" y="28" width="52" height="5" rx="2.5" fill="var(--m-a)"/><rect x="22" y="38" width="70" height="5" rx="2.5" fill="var(--m-c)"/><rect x="22" y="48" width="44" height="5" rx="2.5" fill="var(--m-c)"/><rect x="22" y="58" width="28" height="8" rx="4" fill="var(--m-d)"/></svg></div>
+          <h3>Soluções Personalizadas</h3>
+          <p>Escopo sob medida, do protótipo ao MVP.</p>
+          <div class="price"><span class="ask">Sob consulta</span><a href="#contato" aria-label="Pedir orçamento de solução personalizada">Pedir ›</a></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Como funciona -->
+  <section class="alt" id="como-funciona">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Como funciona</p>
+        <h2>Simples e rápido.</h2>
+        <p class="lead">Um processo enxuto, acompanhado de perto, com entrega média em 7 dias úteis.</p>
+      </div>
+      <ol class="steps">
+        <li class="reveal"><h3>Diagnóstico</h3><p>Conversamos pelo Discord ou por e-mail para entender seu negócio, seu público e seus objetivos.</p></li>
+        <li class="reveal"><h3>Design e estratégia</h3><p>Criamos o layout, a estrutura de páginas e os caminhos que levam o visitante até o contato.</p></li>
+        <li class="reveal"><h3>Desenvolvimento</h3><p>Site rápido, responsivo e otimizado para o Google, com integrações de Discord, e-mail e formulários.</p></li>
+        <li class="reveal"><h3>Entrega</h3><p>Publicamos o site, testamos tudo e entregamos com suporte oficial da VITIN Design Co.</p></li>
+      </ol>
+      <div class="note reveal">
+        <p><b>2 rodadas de revisão</b> em cada etapa · 50% de entrada e 50% na entrega, via Pix ou cartão.</p>
+        <a class="btn btn-fill" href="#contato">Quero meu site</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Avaliações -->
+  <section id="avaliacoes">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Avaliações</p>
+        <h2>Quem já tem um site VITIN.</h2>
+      </div>
+      <div class="rating reveal">
+        <div>
+          <div class="big">4,8</div>
+          <div class="stars" aria-label="4,8 de 5 estrelas">★★★★★</div>
+          <div class="muted" style="font-size:15px">25 avaliações</div>
+        </div>
+        <div class="bars" aria-label="Distribuição das notas">
+          <div><span>5</span><i style="--w:84%"></i><span>21</span></div>
+          <div><span>4</span><i style="--w:12%"></i><span>3</span></div>
+          <div><span>3</span><i style="--w:0%"></i><span>0</span></div>
+          <div><span>2</span><i style="--w:4%"></i><span>1</span></div>
+          <div><span>1</span><i style="--w:0%"></i><span>0</span></div>
+        </div>
+      </div>
+      <div class="reviews" id="reviews"></div>
+      <div class="more"><button class="btn btn-tint" id="moreBtn" aria-controls="reviews">Mostrar todas as 25 avaliações</button></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="alt" id="faq">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">FAQ</p>
+        <h2>Perguntas frequentes.</h2>
+      </div>
+      <div class="faq" id="faqList"></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="contato">
+    <div class="wrap cta reveal">
+      <h2>Pronto para começar<br>seu próximo site?</h2>
+      <p class="lead">Fale pelo Discord ou por e-mail e receba uma proposta personalizada, com suporte oficial da VITIN Design Co.</p>
+      <div class="btn-row">
+        <a class="btn btn-fill" href="mailto:vitinpimentel389@gmail.com?subject=Or%C3%A7amento%20%E2%80%94%20VITIN%20Design%20Co.&body=Ol%C3%A1!%20Queria%20saber%20sobre...">Pedir orçamento por e-mail</a>
+        <a class="btn btn-tint" href="https://discord.gg/PHyUxHB3j" target="_blank" rel="noopener">Entrar no Discord</a>
+      </div>
+      <div class="assure"><span>Resposta em minutos</span><span>Sem compromisso</span><span>Orçamento sob medida</span></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fcols">
+      <div class="fbrand">
+        <a class="brand" href="#top"><img src="favicon.svg" alt="" width="28" height="28"><span>VITIN Design Co.</span></a>
+        <p>Criação de sites profissionais e suporte dedicado. Seu negócio conectado ao digital.</p>
+      </div>
+      <nav aria-label="Rodapé">
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="#quem-sou">Quem sou</a></li>
+          <li><a href="#servicos">Serviços</a></li>
+          <li><a href="#como-funciona">Como funciona</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+      <div>
+        <h4>Serviços</h4>
+        <ul>
+          <li><a href="#servicos">Landing Pages</a></li>
+          <li><a href="#servicos">Sites Institucionais</a></li>
+          <li><a href="#servicos">Lojas Virtuais</a></li>
+          <li><a href="#servicos">Sistemas Web</a></li>
+          <li><a href="#servicos">Portfólios</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contato</h4>
+        <ul>
+          <li class="mail"><a href="mailto:vitinpimentel389@gmail.com">vitinpimentel389@gmail.com</a><button type="button" class="copy" id="copyMail">Copiar</button></li>
+          <li><a href="https://discord.gg/PHyUxHB3j" target="_blank" rel="noopener">Comunidade no Discord</a></li>
+          <li>TikTok, YouTube e WhatsApp<span class="soon">Em breve</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal"><span>© 2026 VITIN Design Co. Todos os direitos reservados.</span><span>Feito no Brasil</span></div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+document.documentElement.classList.add('js');
+
+const REVIEWS = [
+  ['Marcela','Discord','O Vitin é um profissional dedicado, preocupado com a entrega. Mesmo sem entender sobre o assunto, ele manteve uma escuta atenta às minhas necessidades e a entrega foi sempre rápida e excelente. Deixou tudo a minha cara. Nota 10!'],
+  ['Alberto STN','Discord','O cara é top, eu recomendo muito! Seus projetos são massa!'],
+  ['Fernanda Lima','Cliente','Meu e-commerce ficou incrível e as vendas aumentaram. Atendimento nota 10.'],
+  ['Thiago Barros','Cliente','Site institucional perfeito para a minha clínica. Agendamentos aumentaram.'],
+  ['Felipe Andrade','Cliente','Landing page que converteu muito bem. Tráfego pago rendeu o dobro.'],
+  ['Juliana Rocha','Cliente','Meu portfólio ficou maravilhoso e carrega super rápido. Obrigada!'],
+  ['João Pedro','Cliente','Entrega rápida e um resultado muito acima do esperado. Site leve e bonito.'],
+  ['Carla Nunes','Cliente','Comunicação clara do início ao fim. Recomendo de olhos fechados!'],
+  ['Rafael','Cliente','Site premium e suporte impecável. Resolveram tudo em minutos.'],
+  ['Bruno Alves','Cliente','Profissional que realmente entende de conversão. Investimento que valeu cada centavo.'],
+  ['Patrícia Souza','Cliente','Amei o layout! Ficou exatamente como eu imaginava, só que melhor.'],
+  ['Diego Martins','Cliente','Rápido, atencioso e muito competente. Já indiquei para vários amigos.'],
+  ['Marcos Vinícius','Cliente','Do briefing à entrega foi tudo transparente. Recomendo demais.'],
+  ['Camila Ferreira','Cliente','Design moderno e clean. Superou minhas expectativas.'],
+  ['Letícia Gomes','Cliente','Atendimento humano e entrega no prazo. Nota mil!'],
+  ['Rodrigo Mendes','Cliente','Trabalho técnico de altíssimo nível. Site voando no celular.'],
+  ['Aline Costa','Cliente','Ficou com a minha cara! Prezaram cada detalhe do meu estilo.'],
+  ['Gustavo Pires','Cliente','Melhor custo-benefício que já vi. Suporte pós-entrega excelente.'],
+  ['Bianca Ramos','Cliente','Muito atencioso, tirou todas as minhas dúvidas de leiga. Amei!'],
+  ['Vanessa Dias','Cliente','Entrega impecável e dentro do prazo. Recomendo sem medo.'],
+  ['Leonardo Nunes','Cliente','Site rápido, responsivo e elegante. Ficou profissional demais.'],
+  ['Priscila Melo','Cliente','Superou tudo que eu esperava. Meu negócio ganhou outra cara.'],
+  ['André Cardoso','Cliente','Ótima comunicação e ideias criativas. Parceria que deu certo.'],
+  ['Débora Antunes','Cliente','Ficou perfeito no mobile e no desktop. Cliente feliz!'],
+  ['Vitor Hugo','Cliente','Serviço nota 10, do começo ao fim. Voltarei para novos projetos.'],
+];
+
+const FAQS = [
+  ['Quanto custa um site?','O valor depende da complexidade. Landing Pages começam em R$ 600 e Sites Institucionais em R$ 800 com o desconto vigente. Lojas virtuais e sistemas personalizados são calculados sob medida.'],
+  ['O que está incluso no projeto?','Layout 100% exclusivo e personalizado, otimização de velocidade (foco em nota 90+ no PageSpeed), estrutura pronta para SEO, design responsivo para celular e computador, e suporte pós-entrega.'],
+  ['Quanto tempo demora?','Landing Page ou Portfólio: 3 a 7 dias úteis. Sites institucionais completos ou sistemas web: 15 a 30 dias. O prazo exato aparece na sua proposta.'],
+  ['Posso pedir alterações?','Sim. Cada etapa inclui 2 rodadas de revisão. Ajustes de texto, cor e disposição são gratuitos dentro do escopo aprovado. Novas páginas ou funcionalidades viram um novo item de orçamento.'],
+  ['Preciso ter textos e fotos prontos?','Não é obrigatório. Se você já tiver o conteúdo, otimizamos tudo. Se não tiver, ajudamos a organizar as informações essenciais e indicamos bancos de imagens.'],
+  ['Como funciona o pagamento?','50% de entrada para iniciar e 50% na entrega, via Pix ou cartão. Projetos maiores podem ser divididos em etapas ao longo do desenvolvimento.'],
+  ['O domínio e a hospedagem estão inclusos?','Ficam no seu nome, para o projeto ser 100% seu. Damos suporte gratuito para escolher e configurar o domínio no Registro.br e a hospedagem (Vercel, Netlify ou Hostinger).'],
+  ['Vocês fazem manutenção?','Sim. Há planos mensais com atualizações, backups, correções e suporte prioritário, ou atendimento pontual sem mensalidade.'],
+  ['O que é o Discord e por que usam ele?','O Discord é um app gratuito de conversa por texto, voz e arquivos. É a nossa central oficial de atendimento: lá você acompanha seu projeto em tempo real.'],
+];
+
+const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const INITIAL = 6;
+
+document.getElementById('reviews').innerHTML = REVIEWS.map(([n, tag, t], i) => `
+  <figure class="rev"${i >= INITIAL ? ' hidden' : ''}>
+    <div class="stars" aria-label="5 de 5 estrelas">★★★★★</div>
+    <blockquote>“${esc(t)}”</blockquote>
+    <figcaption><span class="av" aria-hidden="true">${esc(n[0])}</span><span>${esc(n)}<small>${esc(tag)}</small></span></figcaption>
+  </figure>`).join('');
+
+const moreBtn = document.getElementById('moreBtn');
+moreBtn.addEventListener('click', () => {
+  const hidden = document.querySelectorAll('.rev[hidden]');
+  const expanding = hidden.length > 0;
+  document.querySelectorAll('.rev').forEach((el, i) => { el.hidden = expanding ? false : i >= INITIAL; });
+  moreBtn.textContent = expanding ? 'Mostrar menos' : 'Mostrar todas as 25 avaliações';
+  if (!expanding) document.getElementById('avaliacoes').scrollIntoView();
+});
+
+document.getElementById('faqList').innerHTML = FAQS.map(([q, a]) =>
+  `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('');
+
+// Menu (compact widths)
+const menuBtn = document.getElementById('menuBtn'), links = document.getElementById('links');
+const setMenu = open => {
+  links.classList.toggle('open', open);
+  menuBtn.setAttribute('aria-expanded', open);
+  menuBtn.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+};
+menuBtn.addEventListener('click', () => setMenu(!links.classList.contains('open')));
+links.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+
+// Copy e-mail with in-interface feedback
+const toast = document.getElementById('toast');
+let tt;
+const showToast = msg => { toast.textContent = msg; toast.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => toast.classList.remove('show'), 2200); };
+document.getElementById('copyMail').addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText('vitinpimentel389@gmail.com'); showToast('E-mail copiado'); }
+  catch { showToast('Não foi possível copiar. Selecione o e-mail e copie manualmente.'); }
+});
+
+// Reveal on scroll
+const io = 'IntersectionObserver' in window && new IntersectionObserver(entries => {
+  entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+}, { rootMargin: '0px 0px -8% 0px' });
+document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+</script>
+</body>
+</html>

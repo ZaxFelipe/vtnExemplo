@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0036ff"/><stop offset="1" stop-color="#00a3ff"/></linearGradient>
+<linearGradient id="wt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#c6d4ff"/></linearGradient></defs>
+<rect width="512" height="512" rx="110" fill="url(#bg)"/>
+<g stroke="#fff" stroke-width="6" opacity=".55" fill="none">
+<path d="M256 90 L330 155 L345 230 L300 245 L212 245 L167 230 L182 155 Z"/>
+<path d="M182 155 L256 90 L256 245 M256 90 L330 155"/>
+</g>
+<g fill="url(#wt)">
+<path d="M90 270 L165 270 L200 310 L165 350 L90 270 Z"/>
+<path d="M215 270 L340 270 L322 292 L250 292 L236 310 L222 292 Z"/>
+<rect x="262" y="298" width="40" height="52"/>
+<path d="M318 298 L352 270 L422 350 L388 350 L352 314 L352 350 L314 350 Z"/>
+</g>
+<text x="256" y="410" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="44" letter-spacing="3" fill="#fff">VTN</text>
+<text x="256" y="448" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="22" letter-spacing="5" fill="#dff1ff">DESIGN CO.</text>
+</svg>
