@@ -13,304 +13,1146 @@
 <meta property="og:type" content="website">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>
-/* ───────── Tokens ─────────
-   Light (on #ffffff):  label #1d1d1f 16.8:1 · secondary #6e6e73 5.1:1 · accent #0066cc 5.6:1
-   Dark  (on #000000):  label #f5f5f7 19.3:1 · secondary #a1a1a6 8.0:1 · accent #3ea2ff 7.6:1
-   Filled button: #0071e3 / #0a84ff with white semibold 17px (4.6:1 / 3.7:1 bold)            */
-:root{
-  --bg:#ffffff;
-  --bg-2:#f5f5f7;
-  --card:#ffffff;
-  --label:#1d1d1f;
-  --label-2:#6e6e73;
-  --sep:rgba(0,0,0,.1);
-  --accent:#0066cc;
-  --fill:#0071e3;
-  --fill-hover:#0077ed;
-  --on-fill:#ffffff;
-  --brand-a:#0058d0;   /* signature gradient, light */
-  --brand-b:#0093c4;
-  --bar:rgba(255,255,255,.72);
-  --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.06);
-  --m-frame:#e8e8ed; --m-a:#0071e3; --m-b:rgba(0,113,227,.35); --m-c:rgba(0,0,0,.12); --m-d:#1d1d1f;
-  --success:#248a3d;
-  --radius:22px;
-  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue","Segoe UI",Roboto,Arial,sans-serif;
+/* =============================================================================
+   1. TOKENS (cores, raio, fonte)
+   Para mudar uma cor, mude o token aqui. Não use valores soltos no resto do CSS.
+
+   Contraste verificado:
+   Claro  (sobre #ffffff): texto #1d1d1f 16.8:1 · secundário #6e6e73 5.1:1 · destaque #0066cc 5.6:1
+   Escuro (sobre #000000): texto #f5f5f7 19.3:1 · secundário #a1a1a6 8.0:1 · destaque #3ea2ff 7.6:1
+   Botão preenchido: #0071e3 / #0a84ff com texto branco semibold 17px (4.6:1 / 3.7:1 em negrito)
+   ============================================================================= */
+:root {
+  /* Fundos */
+  --bg: #ffffff;
+  --bg-2: #f5f5f7;               /* seções alternadas, campos */
+  --card: #ffffff;
+
+  /* Texto e linhas */
+  --label: #1d1d1f;
+  --label-2: #6e6e73;            /* texto secundário */
+  --sep: rgba(0,0,0,.1);         /* bordas e divisórias */
+
+  /* Destaque e botões */
+  --accent: #0066cc;             /* links */
+  --fill: #0071e3;               /* botão preenchido */
+  --fill-hover: #0077ed;
+  --on-fill: #ffffff;
+
+  /* Gradiente da marca (título do hero) */
+  --brand-a: #0058d0;
+  --brand-b: #0093c4;
+
+  /* Barra de navegação (vidro) e sombra dos cards */
+  --bar: rgba(255,255,255,.72);
+  --shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.06);
+
+  /* Cores dos mockups SVG dos serviços */
+  --m-frame: #e8e8ed;            /* barra da janela */
+  --m-a: #0071e3;                /* elemento principal */
+  --m-b: rgba(0,113,227,.35);    /* elemento secundário */
+  --m-c: rgba(0,0,0,.12);        /* blocos neutros */
+  --m-d: #1d1d1f;                /* títulos */
+
+  /* Estados */
+  --success: #248a3d;
+  --danger: #d70015;             /* 5.6:1 sobre branco */
+  --ring: rgba(0,102,204,.22);   /* anel de foco dos campos */
+  --ring-danger: rgba(215,0,21,.18);
+
+  /* Forma e tipografia */
+  --radius: 22px;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", "Segoe UI", Roboto, Arial, sans-serif;
 }
-@media (prefers-color-scheme: dark){
-  :root{
-    --bg:#000000;
-    --bg-2:#0b0b0d;
-    --card:#1c1c1e;
-    --label:#f5f5f7;
-    --label-2:#a1a1a6;
-    --sep:rgba(255,255,255,.14);
-    --accent:#3ea2ff;
-    --fill:#0a84ff;
-    --fill-hover:#2a95ff;
-    --brand-a:#1e90ff;  /* the logo's own gradient */
-    --brand-b:#00e5ff;
-    --bar:rgba(22,22,24,.72);
-    --shadow:none;
-    --m-frame:#2c2c2e; --m-a:#1e90ff; --m-b:rgba(30,144,255,.4); --m-c:rgba(255,255,255,.16); --m-d:#f5f5f7;
-    --success:#30d158;
+
+/* Modo escuro: só redefine os tokens */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #000000;
+    --bg-2: #0b0b0d;
+    --card: #1c1c1e;
+
+    --label: #f5f5f7;
+    --label-2: #a1a1a6;
+    --sep: rgba(255,255,255,.14);
+
+    --accent: #3ea2ff;
+    --fill: #0a84ff;
+    --fill-hover: #2a95ff;
+
+    --brand-a: #1e90ff;          /* o mesmo gradiente do logo */
+    --brand-b: #00e5ff;
+
+    --bar: rgba(22,22,24,.72);
+    --shadow: none;
+
+    --m-frame: #2c2c2e;
+    --m-a: #1e90ff;
+    --m-b: rgba(30,144,255,.4);
+    --m-c: rgba(255,255,255,.16);
+    --m-d: #f5f5f7;
+
+    --success: #30d158;
+    --danger: #ff6961;           /* 7.4:1 sobre preto */
+    --ring: rgba(62,162,255,.3);
+    --ring-danger: rgba(255,105,97,.28);
   }
 }
-@media (prefers-contrast: more){
-  :root{ --label-2:var(--label); --sep:currentColor; }
-}
 
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
-body{
-  margin:0;background:var(--bg);color:var(--label);
-  font:400 17px/1.47 var(--font);letter-spacing:-.022em;
-  -webkit-font-smoothing:antialiased;
-}
-img,svg{display:block;max-width:100%}
-a{color:var(--accent);text-decoration:none}
-a:hover{text-decoration:underline}
-:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
-.wrap{width:min(1080px,100% - 32px);margin-inline:auto}
-.skip{position:absolute;left:-9999px}
-.skip:focus{left:16px;top:12px;z-index:100;background:var(--card);padding:10px 14px;border-radius:10px}
-
-/* ───────── Nav (the only glass surface: functional layer) ───────── */
-.nav{
-  position:sticky;top:0;z-index:50;
-  background:var(--bar);
-  -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
-  border-bottom:1px solid var(--sep);
-}
-@media (prefers-reduced-transparency: reduce){ .nav{background:var(--bg);backdrop-filter:none;-webkit-backdrop-filter:none} }
-.nav-in{display:flex;align-items:center;gap:16px;height:52px}
-.brand{display:flex;align-items:center;gap:10px;color:var(--label);font-weight:600;font-size:17px;letter-spacing:-.01em}
-.brand:hover{text-decoration:none}
-.brand img{width:28px;height:28px;border-radius:7px}
-.links{display:flex;gap:4px;margin-left:auto;align-items:center}
-.links a{color:var(--label);font-size:14px;padding:8px 12px;border-radius:999px;opacity:.85}
-.links a:hover{opacity:1;text-decoration:none;background:var(--sep)}
-.links .btn-sm{background:var(--fill);color:var(--on-fill);opacity:1;font-weight:500;margin-left:6px}
-.links .btn-sm:hover{background:var(--fill-hover)}
-.menu-btn{display:none;margin-left:auto;width:44px;height:44px;border:0;background:none;color:var(--label);border-radius:10px;cursor:pointer}
-.menu-btn svg{width:22px;height:22px;margin:auto}
-@media (max-width:820px){
-  .menu-btn{display:block}
-  .links{
-    display:none;position:absolute;left:0;right:0;top:52px;
-    flex-direction:column;align-items:stretch;gap:0;padding:8px 16px 16px;
-    background:var(--bg);border-bottom:1px solid var(--sep);
+/* Alto contraste: texto secundário vira texto normal e as bordas ficam sólidas */
+@media (prefers-contrast: more) {
+  :root {
+    --label-2: var(--label);
+    --sep: currentColor;
   }
-  .links.open{display:flex}
-  .links a{font-size:17px;padding:14px 4px;border-radius:0;border-bottom:1px solid var(--sep);opacity:1}
-  .links a:hover{background:none}
-  .links .btn-sm{margin:14px 0 0;text-align:center;border-radius:12px;border:0}
 }
 
-/* ───────── Type & buttons ───────── */
-h1,h2,h3{margin:0;font-weight:700;letter-spacing:-.03em;line-height:1.08}
-h1{font-size:clamp(44px,8vw,88px);letter-spacing:-.045em;line-height:1.02}
-h2{font-size:clamp(32px,5vw,52px)}
-h3{font-size:21px;letter-spacing:-.02em;line-height:1.2;font-weight:600}
-.eyebrow{font-size:14px;font-weight:600;color:var(--accent);letter-spacing:0;margin:0 0 10px}
-.lead{font-size:clamp(19px,2.2vw,24px);line-height:1.38;color:var(--label-2);letter-spacing:-.02em}
-.muted{color:var(--label-2)}
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  min-height:48px;padding:0 24px;border-radius:999px;
-  font:600 17px/1 var(--font);letter-spacing:-.01em;cursor:pointer;border:0;
-  transition:background-color .2s, transform .2s;
+
+/* =============================================================================
+   2. BASE
+   ============================================================================= */
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
-.btn:hover{text-decoration:none}
-.btn:active{transform:scale(.98)}
-.btn-fill{background:var(--fill);color:var(--on-fill)}
-.btn-fill:hover{background:var(--fill-hover)}
-.btn-plain{background:none;color:var(--accent);padding:0 8px}
-.btn-plain:hover{text-decoration:underline}
-.btn-tint{background:var(--bg-2);color:var(--label);border:1px solid var(--sep)}
-.btn-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
-
-/* ───────── Sections ───────── */
-section{padding:clamp(72px,10vw,128px) 0}
-section.alt{background:var(--bg-2)}
-.sec-head{max-width:720px;margin-bottom:48px}
-.sec-head .lead{margin:16px 0 0}
-
-/* Hero — the one signature moment */
-.hero{text-align:center;padding:clamp(80px,14vw,160px) 0 clamp(64px,10vw,112px)}
-.hero h1 .grad{
-  background:linear-gradient(90deg,var(--brand-a),var(--brand-b));
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-}
-@media (prefers-contrast: more){ .hero h1 .grad{background:none;color:var(--accent)} }
-.hero .lead{max-width:640px;margin:24px auto 0}
-.hero .price{margin:20px 0 36px;font-size:17px;color:var(--label-2)}
-.hero .price b{color:var(--label);font-weight:600}
-.hero .btn-row{justify-content:center}
-
-/* Quem sou */
-.about{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(32px,6vw,80px);align-items:start}
-.about p{font-size:19px;line-height:1.5;color:var(--label-2);margin:20px 0 0}
-.about p b{color:var(--label);font-weight:600}
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:28px 24px;margin-top:40px}
-.stats div{border-top:1px solid var(--sep);padding-top:14px}
-.stats b{display:block;font-size:40px;font-weight:700;letter-spacing:-.03em;line-height:1}
-.stats span{display:block;margin-top:6px;font-size:15px;color:var(--label-2)}
-.panel{background:var(--card);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);border:1px solid var(--sep)}
-.panel h3{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:var(--label-2);margin-bottom:8px}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--success)}
-.list{list-style:none;margin:0;padding:0}
-.list li{padding:14px 0;border-bottom:1px solid var(--sep);font-size:17px}
-.list li:last-child{border-bottom:0}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
-.chips span{font-size:14px;padding:6px 12px;border-radius:999px;background:var(--bg-2);color:var(--label-2);border:1px solid var(--sep)}
-
-/* Serviços */
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.svc{background:var(--card);border-radius:var(--radius);padding:24px;border:1px solid var(--sep);box-shadow:var(--shadow);display:flex;flex-direction:column}
-.svc .mock{border-radius:14px;background:var(--bg-2);padding:14px;margin-bottom:22px}
-.svc .mock svg{width:100%;height:auto}
-.svc p{margin:8px 0 20px;color:var(--label-2);font-size:16px}
-.svc .price{margin-top:auto;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;padding-top:16px;border-top:1px solid var(--sep)}
-.svc .price s{color:var(--label-2);font-size:15px}
-.svc .price b{font-size:21px;font-weight:700;letter-spacing:-.02em}
-.svc .price .tag{font-size:13px;font-weight:600;color:var(--success)}
-.svc .price .ask{font-size:16px;color:var(--label-2)}
-.svc .price a{margin-left:auto;font-size:15px;font-weight:500}
-
-/* Como funciona */
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;counter-reset:s;list-style:none;margin:0;padding:0}
-.steps li{position:relative;padding-top:56px}
-.steps li::before{
-  counter-increment:s;content:counter(s);
-  position:absolute;top:0;left:0;width:40px;height:40px;border-radius:50%;
-  display:grid;place-items:center;font-weight:600;font-size:17px;
-  background:var(--card);border:1px solid var(--sep);color:var(--label);
-}
-.steps li:not(:last-child)::after{content:"";position:absolute;top:20px;left:52px;right:-8px;height:1px;background:var(--sep)}
-.steps p{margin:8px 0 0;color:var(--label-2);font-size:16px}
-.note{margin-top:48px;display:flex;flex-wrap:wrap;align-items:center;gap:16px 24px;justify-content:space-between;padding:24px 28px;border-radius:var(--radius);background:var(--card);border:1px solid var(--sep)}
-.note p{margin:0;font-size:17px}
-
-/* Avaliações */
-.rating{display:flex;align-items:center;gap:28px;flex-wrap:wrap;margin-bottom:40px}
-.rating .big{font-size:64px;font-weight:700;letter-spacing:-.04em;line-height:1}
-.stars{color:#ff9f0a;letter-spacing:2px;font-size:17px}
-.bars{display:grid;gap:6px;min-width:220px;flex:0 1 280px}
-.bars div{display:grid;grid-template-columns:14px 1fr 24px;gap:10px;align-items:center;font-size:13px;color:var(--label-2)}
-.bars i{display:block;height:6px;border-radius:3px;background:var(--sep);overflow:hidden}
-.bars i::after{content:"";display:block;height:100%;width:var(--w);background:var(--label-2)}
-.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.rev{background:var(--card);border-radius:var(--radius);padding:24px;border:1px solid var(--sep);margin:0}
-.rev blockquote{margin:12px 0 18px;font-size:16px;line-height:1.5}
-.rev figcaption{display:flex;align-items:center;gap:12px;font-size:15px}
-.rev .av{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:600;background:var(--bg-2);border:1px solid var(--sep)}
-.rev small{display:block;color:var(--label-2);font-size:13px}
-.rev[hidden]{display:none}
-.more{margin-top:28px;text-align:center}
-
-/* FAQ */
-.faq{max-width:820px}
-.faq details{border-bottom:1px solid var(--sep)}
-.faq summary{
-  list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;
-  min-height:44px;padding:20px 0;font-size:19px;font-weight:600;letter-spacing:-.02em;
-}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"";flex:none;width:10px;height:10px;border-right:2px solid var(--label-2);border-bottom:2px solid var(--label-2);transform:rotate(45deg) translate(-3px,-3px);transition:transform .25s}
-.faq details[open] summary::after{transform:rotate(225deg) translate(-2px,-2px)}
-.faq details p{margin:0 0 22px;color:var(--label-2);max-width:68ch}
-
-/* CTA final */
-.cta{text-align:center}
-.cta .lead{max-width:600px;margin:20px auto 36px}
-.cta .btn-row{justify-content:center}
-.assure{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 24px;margin-top:28px;font-size:15px;color:var(--label-2)}
-.assure span::before{content:"✓ ";color:var(--success);font-weight:600}
-
-/* Footer */
-footer{background:var(--bg-2);border-top:1px solid var(--sep);padding:48px 0 32px;font-size:14px;color:var(--label-2)}
-.fcols{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:32px}
-footer h4{margin:0 0 12px;font-size:14px;font-weight:600;color:var(--label);letter-spacing:-.01em}
-footer ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-footer a{color:var(--label-2)}
-footer a:hover{color:var(--label)}
-.fbrand p{margin:12px 0 0;max-width:34ch;line-height:1.5}
-.mail{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.copy{font:500 13px var(--font);padding:6px 12px;min-height:32px;border-radius:999px;border:1px solid var(--sep);background:var(--card);color:var(--label);cursor:pointer}
-.soon{font-size:12px;color:var(--label-2);border:1px solid var(--sep);border-radius:6px;padding:2px 6px;margin-left:6px;white-space:nowrap}
-.legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--sep);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
-
-/* Toast — feedback in the interface, not an alert */
-.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;
-  background:var(--label);color:var(--bg);font-size:15px;font-weight:500;padding:12px 18px;border-radius:999px;transition:.25s;z-index:60}
-.toast.show{opacity:1;transform:translate(-50%,0)}
-
-/* Reveal on scroll (skipped with reduced motion) */
-@media (prefers-reduced-motion: no-preference){
-  .js .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1)}
-  .js .reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
 }
 
-/* ───────── Responsive ───────── */
-@media (max-width:960px){
-  .grid3,.reviews{grid-template-columns:repeat(2,1fr)}
-  .steps{grid-template-columns:repeat(2,1fr);gap:36px 20px}
-  .steps li::after{display:none}
-  .fcols{grid-template-columns:1fr 1fr}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--label);
+  font: 400 17px/1.47 var(--font);
+  letter-spacing: -.022em;
+  -webkit-font-smoothing: antialiased;
 }
-@media (max-width:720px){
-  .about{grid-template-columns:1fr}
-  .grid3,.reviews,.steps{grid-template-columns:1fr}
-  .fcols{grid-template-columns:1fr}
-  .note{padding:20px}
-  .hero .btn-row .btn{width:100%}
+
+img, svg { display: block; max-width: 100%; }
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+/* Container central com 16px de respiro em cada lado */
+.wrap {
+  width: min(1080px, 100% - 32px);
+  margin-inline: auto;
+}
+
+/* Link "Pular para o conteúdo": escondido até receber foco pelo teclado */
+.skip { position: absolute; left: -9999px; }
+.skip:focus {
+  left: 16px;
+  top: 12px;
+  z-index: 100;
+  background: var(--card);
+  padding: 10px 14px;
+  border-radius: 10px;
+}
+
+
+/* =============================================================================
+   3. NAVEGAÇÃO (a única superfície com efeito de vidro)
+   ============================================================================= */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bar);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--sep);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .nav {
+    background: var(--bg);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+.nav-in {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 52px;
+}
+
+/* Logo + nome (usado na nav e no rodapé) */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--label);
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: -.01em;
+}
+.brand:hover { text-decoration: none; }
+.brand img { width: 28px; height: 28px; border-radius: 7px; }
+
+/* Links da nav (desktop) */
+.links {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+  align-items: center;
+}
+.links a {
+  color: var(--label);
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  opacity: .85;
+}
+.links a:hover {
+  opacity: 1;
+  text-decoration: none;
+  background: var(--sep);
+}
+.links .btn-sm {
+  background: var(--fill);
+  color: var(--on-fill);
+  opacity: 1;
+  font-weight: 500;
+  margin-left: 6px;
+}
+.links .btn-sm:hover { background: var(--fill-hover); }
+
+/* Botão hambúrguer: só aparece em telas pequenas */
+.menu-btn {
+  display: none;
+  margin-left: auto;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: none;
+  color: var(--label);
+  border-radius: 10px;
+  cursor: pointer;
+}
+.menu-btn svg { width: 22px; height: 22px; margin: auto; }
+
+/* Até 820px os links viram um menu suspenso que abre pelo hambúrguer */
+@media (max-width: 820px) {
+  .menu-btn { display: block; }
+
+  .links {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 52px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 8px 16px 16px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--sep);
+  }
+  .links.open { display: flex; }
+
+  .links a {
+    font-size: 17px;
+    padding: 14px 4px;
+    border-radius: 0;
+    border-bottom: 1px solid var(--sep);
+    opacity: 1;
+  }
+  .links a:hover { background: none; }
+
+  .links .btn-sm {
+    margin: 14px 0 0;
+    text-align: center;
+    border-radius: 12px;
+    border: 0;
+  }
+}
+
+
+/* =============================================================================
+   4. TIPOGRAFIA E BOTÕES
+   ============================================================================= */
+h1, h2, h3 {
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: -.03em;
+  line-height: 1.08;
+}
+h1 {
+  font-size: clamp(44px, 8vw, 88px);
+  letter-spacing: -.045em;
+  line-height: 1.02;
+}
+h2 { font-size: clamp(32px, 5vw, 52px); }
+h3 {
+  font-size: 21px;
+  letter-spacing: -.02em;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+/* Texto pequeno azul acima dos títulos das seções */
+.eyebrow {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0;
+  margin: 0 0 10px;
+}
+
+/* Subtítulo grande */
+.lead {
+  font-size: clamp(19px, 2.2vw, 24px);
+  line-height: 1.38;
+  color: var(--label-2);
+  letter-spacing: -.02em;
+}
+
+.muted { color: var(--label-2); }
+
+/* Botão base (formato pílula) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 24px;
+  border-radius: 999px;
+  font: 600 17px/1 var(--font);
+  letter-spacing: -.01em;
+  cursor: pointer;
+  border: 0;
+  transition: background-color .2s, transform .2s;
+}
+.btn:hover { text-decoration: none; }
+.btn:active { transform: scale(.98); }
+
+/* Variações */
+.btn-fill { background: var(--fill); color: var(--on-fill); }       /* ação principal */
+.btn-fill:hover { background: var(--fill-hover); }
+
+.btn-plain { background: none; color: var(--accent); padding: 0 8px; } /* só texto */
+.btn-plain:hover { text-decoration: underline; }
+
+.btn-tint {                                                          /* ação secundária */
+  background: var(--bg-2);
+  color: var(--label);
+  border: 1px solid var(--sep);
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+
+/* =============================================================================
+   5. SEÇÕES
+   ============================================================================= */
+section { padding: clamp(72px, 10vw, 128px) 0; }
+section.alt { background: var(--bg-2); }   /* fundo cinza para alternar seções */
+
+/* Cabeçalho padrão de seção: eyebrow + título + lead */
+.sec-head { max-width: 720px; margin-bottom: 48px; }
+.sec-head .lead { margin: 16px 0 0; }
+
+
+/* ----- Hero --------------------------------------------------------------- */
+.hero {
+  text-align: center;
+  padding: clamp(80px, 14vw, 160px) 0 clamp(64px, 10vw, 112px);
+}
+
+/* "começa aqui." com o gradiente da marca */
+.hero h1 .grad {
+  background: linear-gradient(90deg, var(--brand-a), var(--brand-b));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@media (prefers-contrast: more) {
+  .hero h1 .grad { background: none; color: var(--accent); }
+}
+
+.hero .lead { max-width: 640px; margin: 24px auto 0; }
+.hero .price { margin: 20px 0 36px; font-size: 17px; color: var(--label-2); }
+.hero .price b { color: var(--label); font-weight: 600; }
+.hero .btn-row { justify-content: center; }
+
+
+/* ----- Quem sou ----------------------------------------------------------- */
+.about {
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: clamp(32px, 6vw, 80px);
+  align-items: start;
+}
+.about p {
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--label-2);
+  margin: 20px 0 0;
+}
+.about p b { color: var(--label); font-weight: 600; }
+
+/* Números (100+ sites, 2 anos...) */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px 24px;
+  margin-top: 40px;
+}
+.stats div { border-top: 1px solid var(--sep); padding-top: 14px; }
+.stats b {
+  display: block;
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -.03em;
+  line-height: 1;
+}
+.stats span {
+  display: block;
+  margin-top: 6px;
+  font-size: 15px;
+  color: var(--label-2);
+}
+
+/* Card branco genérico (painel "Ramo de atuação" e formulário) */
+.panel {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--sep);
+}
+.panel h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--label-2);
+  margin-bottom: 8px;
+}
+
+/* Bolinha verde "disponível" */
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--success);
+}
+
+.list { list-style: none; margin: 0; padding: 0; }
+.list li {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--sep);
+  font-size: 17px;
+}
+.list li:last-child { border-bottom: 0; }
+
+/* Etiquetas de tecnologias */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+.chips span {
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--bg-2);
+  color: var(--label-2);
+  border: 1px solid var(--sep);
+}
+
+
+/* ----- Serviços ----------------------------------------------------------- */
+.grid3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* Card de serviço: mockup, título, descrição e preço colado no rodapé */
+.svc {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 24px;
+  border: 1px solid var(--sep);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+.svc .mock {
+  border-radius: 14px;
+  background: var(--bg-2);
+  padding: 14px;
+  margin-bottom: 22px;
+}
+.svc .mock svg { width: 100%; height: auto; }
+.svc p { margin: 8px 0 20px; color: var(--label-2); font-size: 16px; }
+
+/* Linha de preço (margin-top:auto empurra para o fim do card) */
+.svc .price {
+  margin-top: auto;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-top: 16px;
+  border-top: 1px solid var(--sep);
+}
+.svc .price s    { color: var(--label-2); font-size: 15px; }                        /* preço antigo */
+.svc .price b    { font-size: 21px; font-weight: 700; letter-spacing: -.02em; }     /* preço atual */
+.svc .price .tag { font-size: 13px; font-weight: 600; color: var(--success); }      /* "Promoção" */
+.svc .price .ask { font-size: 16px; color: var(--label-2); }                        /* "Sob consulta" */
+.svc .price a    { margin-left: auto; font-size: 15px; font-weight: 500; }          /* "Pedir ›" */
+
+
+/* ----- Como funciona ------------------------------------------------------ */
+/* Lista numerada: o número vem de um contador CSS desenhado em ::before */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  counter-reset: s;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.steps li { position: relative; padding-top: 56px; }
+
+/* Círculo com o número do passo */
+.steps li::before {
+  counter-increment: s;
+  content: counter(s);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  font-size: 17px;
+  background: var(--card);
+  border: 1px solid var(--sep);
+  color: var(--label);
+}
+
+/* Linha ligando um passo ao próximo */
+.steps li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: 52px;
+  right: -8px;
+  height: 1px;
+  background: var(--sep);
+}
+.steps p { margin: 8px 0 0; color: var(--label-2); font-size: 16px; }
+
+/* Faixa "2 rodadas de revisão... / Quero meu site" */
+.note {
+  margin-top: 48px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 24px;
+  justify-content: space-between;
+  padding: 24px 28px;
+  border-radius: var(--radius);
+  background: var(--card);
+  border: 1px solid var(--sep);
+}
+.note p { margin: 0; font-size: 17px; }
+
+
+/* ----- Avaliações --------------------------------------------------------- */
+/* Resumo: nota grande + barras de distribuição */
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+.rating .big {
+  font-size: 64px;
+  font-weight: 700;
+  letter-spacing: -.04em;
+  line-height: 1;
+}
+.stars { color: #ff9f0a; letter-spacing: 2px; font-size: 17px; }
+
+/* Cada barra: [nota] [trilho] [quantidade]. A largura vem da variável --w no HTML. */
+.bars {
+  display: grid;
+  gap: 6px;
+  min-width: 220px;
+  flex: 0 1 280px;
+}
+.bars div {
+  display: grid;
+  grid-template-columns: 14px 1fr 24px;
+  gap: 10px;
+  align-items: center;
+  font-size: 13px;
+  color: var(--label-2);
+}
+.bars i {
+  display: block;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--sep);
+  overflow: hidden;
+}
+.bars i::after {
+  content: "";
+  display: block;
+  height: 100%;
+  width: var(--w);
+  background: var(--label-2);
+}
+
+/* Cards de avaliação (gerados pelo JS) */
+.reviews {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.rev {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 24px;
+  border: 1px solid var(--sep);
+  margin: 0;
+}
+.rev blockquote { margin: 12px 0 18px; font-size: 16px; line-height: 1.5; }
+.rev figcaption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+}
+
+/* Avatar com a inicial do nome */
+.rev .av {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  background: var(--bg-2);
+  border: 1px solid var(--sep);
+}
+.rev small { display: block; color: var(--label-2); font-size: 13px; }
+.rev[hidden] { display: none; }
+
+.more { margin-top: 28px; text-align: center; }
+
+
+/* ----- FAQ ---------------------------------------------------------------- */
+.faq { max-width: 820px; }
+.faq details { border-bottom: 1px solid var(--sep); }
+
+.faq summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  min-height: 44px;
+  padding: 20px 0;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -.02em;
+}
+.faq summary::-webkit-details-marker { display: none; }   /* esconde o triângulo padrão */
+
+/* Setinha desenhada com duas bordas; gira quando a pergunta abre */
+.faq summary::after {
+  content: "";
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid var(--label-2);
+  border-bottom: 2px solid var(--label-2);
+  transform: rotate(45deg) translate(-3px, -3px);
+  transition: transform .25s;
+}
+.faq details[open] summary::after { transform: rotate(225deg) translate(-2px, -2px); }
+
+.faq details p { margin: 0 0 22px; color: var(--label-2); max-width: 68ch; }
+
+
+/* ----- CTA final (Contato) ------------------------------------------------ */
+.cta { text-align: center; }
+.cta .lead { max-width: 600px; margin: 20px auto 36px; }
+.cta .btn-row { justify-content: center; }
+
+/* "✓ Resposta em minutos  ✓ Sem compromisso ..." */
+.assure {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 24px;
+  margin-top: 28px;
+  font-size: 15px;
+  color: var(--label-2);
+}
+.assure span::before { content: "✓ "; color: var(--success); font-weight: 600; }
+
+
+/* ----- Orçamento (formulário) --------------------------------------------- */
+.form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 20px;
+  padding: clamp(20px, 4vw, 32px);
+}
+
+/* Um campo = label + input + mensagem de erro */
+.field {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  min-width: 0;
+}
+.field.full { grid-column: 1 / -1; }   /* ocupa as duas colunas */
+.field label { font-size: 14px; font-weight: 600; color: var(--label); }
+.field label small { font-size: 14px; font-weight: 400; color: var(--label-2); }
+
+/* Visual comum a input, select e textarea */
+.input {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  margin: 0;
+  font: 400 17px/1.3 var(--font);
+  letter-spacing: -.01em;
+  color: var(--label);
+  background: var(--bg-2);
+  border: 1px solid var(--sep);
+  border-radius: 12px;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.input::placeholder { color: var(--label-2); opacity: 1; }
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--ring);
+}
+
+/* Select com setinha própria (SVG embutido) */
+select.input {
+  padding-right: 40px;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%2386868b' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 12px 8px;
+}
+
+textarea.input { min-height: 120px; resize: vertical; line-height: 1.47; }
+
+/* Campo com erro (o JS marca aria-invalid="true") */
+.input[aria-invalid="true"] { border-color: var(--danger); }
+.input[aria-invalid="true"]:focus { box-shadow: 0 0 0 4px var(--ring-danger); }
+
+/* Mensagem de erro: some quando está vazia */
+.err { margin: 0; font-size: 14px; color: var(--danger); }
+.err:empty { display: none; }
+
+/* Botão "Confirmar pedido" + texto de apoio */
+.form-foot {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  padding-top: 6px;
+}
+.form-foot p { margin: 0; font-size: 15px; color: var(--label-2); flex: 1 1 260px; }
+
+/* Pílulas "Segunda a sexta · 9h às 18h · Horário de Brasília" */
+.info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+}
+.info li {
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--label-2);
+  border: 1px solid var(--sep);
+}
+
+
+/* ----- Pop-up pós-pedido (<dialog> modal) --------------------------------- */
+.sheet {
+  width: min(580px, 100% - 32px);
+  max-height: calc(100% - 32px);
+  padding: 0;
+  overflow: auto;
+  border: 1px solid var(--sep);
+  border-radius: 28px;
+  background: var(--card);
+  color: var(--label);
+  box-shadow: 0 24px 80px rgba(0,0,0,.35);
+}
+.sheet::backdrop {
+  background: rgba(0,0,0,.45);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+/* Animação de entrada (desligada para quem prefere menos movimento) */
+@media (prefers-reduced-motion: no-preference) {
+  .sheet[open] { animation: pop .35s cubic-bezier(.2,.8,.2,1); }
+  @keyframes pop {
+    from { opacity: 0; transform: translateY(12px) scale(.98); }
+  }
+}
+
+.sheet-in {
+  position: relative;
+  padding: clamp(24px, 5vw, 40px);
+  text-align: center;
+}
+
+/* Botão X de fechar */
+.sheet .x {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--bg-2);
+  color: var(--label-2);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.sheet .x svg { width: 14px; height: 14px; }
+
+/* Círculo verde com ✓ */
+.ok {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--success);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 16px;
+}
+.ok svg { width: 26px; height: 26px; }
+
+.sheet h2 { font-size: 28px; }
+.sheet .sum  { margin: 10px 0 0; font-size: 16px; color: var(--label-2); }   /* resumo do pedido */
+.sheet .sum b { color: var(--label); font-weight: 600; }
+.sheet .then { margin: 6px 0 0; font-size: 16px; color: var(--label-2); }
+.sheet .then b { color: var(--label); font-weight: 600; }
+
+/* Etapas "Solicitação → PDF → Ticket"; a classe .done marca a etapa como concluída */
+.flow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  list-style: none;
+  margin: 22px 0 26px;
+  padding: 0;
+}
+.flow li {
+  position: relative;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--sep);
+  color: var(--label-2);
+  transition: color .2s, border-color .2s;
+}
+.flow li + li::before {           /* seta entre as etapas */
+  content: "→";
+  position: absolute;
+  left: -21px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--label-2);
+  font-weight: 400;
+}
+.flow li.done { border-color: var(--accent); color: var(--accent); }
+.flow li.done::after { content: " ✓"; }
+
+.why { margin: 0 0 14px; text-align: left; font-size: 16px; color: var(--label-2); }
+.why b { color: var(--label); font-weight: 600; }
+
+/* Passo a passo numerado (mesmo truque de contador do .steps) */
+.howto {
+  counter-reset: h;
+  list-style: none;
+  margin: 0 0 26px;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+  text-align: left;
+}
+.howto li {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 12px;
+  align-items: center;
+  font-size: 16px;
+  color: var(--label-2);
+}
+.howto li::before {
+  counter-increment: h;
+  content: counter(h);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--label);
+  background: var(--bg-2);
+  border: 1px solid var(--sep);
+}
+.howto b { color: var(--label); font-weight: 600; }
+
+/* Nome do canal do Discord */
+.chan { color: var(--accent); font-weight: 600; white-space: nowrap; }
+
+/* Botões do pop-up: o primeiro (PDF) ocupa a linha inteira */
+.sheet-acts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.sheet-acts .btn { width: 100%; }
+.sheet-acts .btn:first-child { grid-column: 1 / -1; }
+@media (max-width: 480px) {
+  .sheet-acts { grid-template-columns: 1fr; }
+}
+
+/* Trava a rolagem da página enquanto o pop-up está aberto */
+body:has(.sheet[open]) { overflow: hidden; }
+
+
+/* =============================================================================
+   6. RODAPÉ
+   ============================================================================= */
+footer {
+  background: var(--bg-2);
+  border-top: 1px solid var(--sep);
+  padding: 48px 0 32px;
+  font-size: 14px;
+  color: var(--label-2);
+}
+.fcols {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+  gap: 32px;
+}
+footer h4 {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--label);
+  letter-spacing: -.01em;
+}
+footer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+footer a { color: var(--label-2); }
+footer a:hover { color: var(--label); }
+
+.fbrand p { margin: 12px 0 0; max-width: 34ch; line-height: 1.5; }
+
+/* E-mail + botão "Copiar" */
+.mail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.copy {
+  font: 500 13px var(--font);
+  padding: 6px 12px;
+  min-height: 32px;
+  border-radius: 999px;
+  border: 1px solid var(--sep);
+  background: var(--card);
+  color: var(--label);
+  cursor: pointer;
+}
+
+/* Etiqueta "Em breve" */
+.soon {
+  font-size: 12px;
+  color: var(--label-2);
+  border: 1px solid var(--sep);
+  border-radius: 6px;
+  padding: 2px 6px;
+  margin-left: 6px;
+  white-space: nowrap;
+}
+
+/* Linha final: copyright */
+.legal {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--sep);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+
+/* =============================================================================
+   7. EFEITOS
+   ============================================================================= */
+/* Toast: aviso rápido no rodapé da tela (ex.: "E-mail copiado") em vez de alert() */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translate(-50%, 20px);
+  opacity: 0;
+  pointer-events: none;
+  background: var(--label);
+  color: var(--bg);
+  font-size: 15px;
+  font-weight: 500;
+  padding: 12px 18px;
+  border-radius: 999px;
+  transition: .25s;
+  z-index: 60;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* Elementos .reveal surgem ao entrar na tela. Só vale com JS ativo (.js) e sem
+   preferência por menos movimento; caso contrário tudo aparece normalmente. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1);
+  }
+  .js .reveal.in { opacity: 1; transform: none; }
+}
+
+
+/* =============================================================================
+   8. RESPONSIVO
+   ============================================================================= */
+/* Tablet: grades de 3/4 colunas viram 2 */
+@media (max-width: 960px) {
+  .grid3, .reviews { grid-template-columns: repeat(2, 1fr); }
+  .steps { grid-template-columns: repeat(2, 1fr); gap: 36px 20px; }
+  .steps li::after { display: none; }
+  .fcols { grid-template-columns: 1fr 1fr; }
+}
+
+/* Celular: tudo em 1 coluna e botões principais com largura total */
+@media (max-width: 720px) {
+  .about { grid-template-columns: 1fr; }
+  .grid3, .reviews, .steps { grid-template-columns: 1fr; }
+  .fcols { grid-template-columns: 1fr; }
+  .note { padding: 20px; }
+  .form { grid-template-columns: 1fr; }
+  .form-foot .btn { width: 100%; }
+  .hero .btn-row .btn { width: 100%; }
 }
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Pular para o conteúdo</a>
 
+<!-- ========================= NAVEGAÇÃO ========================= -->
 <header class="nav">
   <div class="wrap nav-in">
     <a class="brand" href="#top" aria-label="VITIN Design Co., início">
       <img src="favicon.svg" alt="" width="28" height="28">
       <span>VITIN Design Co.</span>
     </a>
+
+    <!-- Hambúrguer (só aparece até 820px) -->
     <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false" aria-controls="links">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M4 7h16M4 12h16M4 17h16"/>
+      </svg>
     </button>
+
     <nav class="links" id="links" aria-label="Principal">
       <a href="#quem-sou">Quem sou</a>
       <a href="#servicos">Serviços</a>
       <a href="#como-funciona">Como funciona</a>
       <a href="#avaliacoes">Avaliações</a>
       <a href="#faq">FAQ</a>
-      <a class="btn-sm" href="#contato">Pedir orçamento</a>
+      <a class="btn-sm" href="#orcamento">Pedir orçamento</a>
     </nav>
   </div>
 </header>
 
 <main id="main">
-  <!-- Hero -->
+
+  <!-- ========================= HERO ========================= -->
   <div class="wrap hero" id="top">
     <h1>Seu próximo site<br><span class="grad">começa aqui.</span></h1>
     <p class="lead">Sites profissionais, modernos e personalizados para transformar sua presença digital.</p>
     <p class="price"><b>Projetos a partir de R$ 1.000</b> · valor final conforme escopo e funcionalidades.</p>
     <div class="btn-row">
-      <a class="btn btn-fill" href="#contato">Pedir orçamento</a>
+      <a class="btn btn-fill" href="#orcamento">Pedir orçamento</a>
       <a class="btn btn-plain" href="#como-funciona">Ver como funciona ›</a>
     </div>
   </div>
 
-  <!-- Quem sou -->
+
+  <!-- ========================= QUEM SOU ========================= -->
   <section class="alt" id="quem-sou">
     <div class="wrap about">
       <div class="reveal">
         <p class="eyebrow">Quem sou</p>
         <h2>Vitin. 18 anos, 2 criando sites.</h2>
         <p>Criador de sites profissionais, desenvolvedor web e criador de soluções digitais. À frente da <b>VITIN Design Co.</b>, transformo ideias em projetos modernos, funcionais e profissionais, com o compromisso de quem coloca o próprio nome em cada entrega.</p>
+
         <div class="stats">
           <div><b>100+</b><span>Sites entregues</span></div>
           <div><b>2 anos</b><span>De experiência</span></div>
@@ -318,6 +1160,7 @@ footer a:hover{color:var(--label)}
           <div><b>4,8</b><span>Nota média de 25 avaliações</span></div>
         </div>
       </div>
+
       <div class="panel reveal">
         <h3><span class="dot" aria-hidden="true"></span>Ramo de atuação · disponível para projetos</h3>
         <ul class="list">
@@ -328,13 +1171,23 @@ footer a:hover{color:var(--label)}
           <li>Projetos personalizados</li>
         </ul>
         <div class="chips" aria-label="Tecnologias">
-          <span>React</span><span>JavaScript</span><span>HTML e CSS</span><span>UI/UX</span><span>Design responsivo</span><span>SEO</span><span>Performance</span>
+          <span>React</span>
+          <span>JavaScript</span>
+          <span>HTML e CSS</span>
+          <span>UI/UX</span>
+          <span>Design responsivo</span>
+          <span>SEO</span>
+          <span>Performance</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Serviços -->
+
+  <!-- ========================= SERVIÇOS =========================
+       Cada card tem um mockup SVG: uma "janela de navegador" (barra + 3 bolinhas)
+       com um esboço do tipo de site. As cores vêm dos tokens --m-*.
+       O link "Pedir ›" usa data-tipo para já escolher o tipo no formulário. -->
   <section id="servicos">
     <div class="wrap">
       <div class="sec-head reveal">
@@ -342,48 +1195,161 @@ footer a:hover{color:var(--label)}
         <h2>Soluções para cada momento.</h2>
         <p class="lead">Do primeiro site da sua marca a um sistema completo, sempre com layout exclusivo.</p>
       </div>
+
       <div class="grid3">
+
+        <!-- Landing Pages -->
         <article class="svc reveal">
-          <div class="mock"><svg viewBox="0 0 120 84" aria-hidden="true"><rect width="120" height="84" rx="6" fill="var(--card)"/><rect x="0" y="0" width="120" height="12" rx="6" fill="var(--m-frame)"/><circle cx="8" cy="6" r="2" fill="#ff5f57"/><circle cx="14" cy="6" r="2" fill="#febc2e"/><circle cx="20" cy="6" r="2" fill="#28c840"/><rect x="14" y="22" width="62" height="10" rx="2" fill="var(--m-d)"/><rect x="14" y="37" width="92" height="5" rx="2" fill="var(--m-c)"/><rect x="14" y="46" width="70" height="5" rx="2" fill="var(--m-c)"/><rect x="14" y="59" width="36" height="12" rx="6" fill="var(--m-a)"/><rect x="54" y="59" width="36" height="12" rx="6" fill="none" stroke="var(--m-a)"/></svg></div>
+          <div class="mock">
+            <svg viewBox="0 0 120 84" aria-hidden="true">
+              <rect width="120" height="84" rx="6" fill="var(--card)"/>
+              <rect width="120" height="12" rx="6" fill="var(--m-frame)"/>
+              <circle cx="8" cy="6" r="2" fill="#ff5f57"/>
+              <circle cx="14" cy="6" r="2" fill="#febc2e"/>
+              <circle cx="20" cy="6" r="2" fill="#28c840"/>
+              <rect x="14" y="22" width="62" height="10" rx="2" fill="var(--m-d)"/>
+              <rect x="14" y="37" width="92" height="5" rx="2" fill="var(--m-c)"/>
+              <rect x="14" y="46" width="70" height="5" rx="2" fill="var(--m-c)"/>
+              <rect x="14" y="59" width="36" height="12" rx="6" fill="var(--m-a)"/>
+              <rect x="54" y="59" width="36" height="12" rx="6" fill="none" stroke="var(--m-a)"/>
+            </svg>
+          </div>
           <h3>Landing Pages</h3>
           <p>Páginas de alta conversão, rápidas e otimizadas.</p>
-          <div class="price"><s>R$ 1.000</s><b>R$ 600</b><span class="tag">Promoção</span><a href="#contato" aria-label="Pedir orçamento de landing page">Pedir ›</a></div>
+          <div class="price">
+            <s>R$ 1.000</s><b>R$ 600</b><span class="tag">Promoção</span>
+            <a href="#orcamento" data-tipo="Landing Page" aria-label="Pedir orçamento de landing page">Pedir ›</a>
+          </div>
         </article>
+
+        <!-- Sites Institucionais -->
         <article class="svc reveal">
-          <div class="mock"><svg viewBox="0 0 120 84" aria-hidden="true"><rect width="120" height="84" rx="6" fill="var(--card)"/><rect width="120" height="12" rx="6" fill="var(--m-frame)"/><circle cx="8" cy="6" r="2" fill="#ff5f57"/><circle cx="14" cy="6" r="2" fill="#febc2e"/><circle cx="20" cy="6" r="2" fill="#28c840"/><rect x="14" y="22" width="92" height="9" rx="2" fill="var(--m-d)"/><rect x="14" y="36" width="28" height="36" rx="3" fill="var(--m-a)"/><rect x="46" y="36" width="28" height="36" rx="3" fill="var(--m-b)"/><rect x="78" y="36" width="28" height="36" rx="3" fill="var(--m-c)"/></svg></div>
+          <div class="mock">
+            <svg viewBox="0 0 120 84" aria-hidden="true">
+              <rect width="120" height="84" rx="6" fill="var(--card)"/>
+              <rect width="120" height="12" rx="6" fill="var(--m-frame)"/>
+              <circle cx="8" cy="6" r="2" fill="#ff5f57"/>
+              <circle cx="14" cy="6" r="2" fill="#febc2e"/>
+              <circle cx="20" cy="6" r="2" fill="#28c840"/>
+              <rect x="14" y="22" width="92" height="9" rx="2" fill="var(--m-d)"/>
+              <rect x="14" y="36" width="28" height="36" rx="3" fill="var(--m-a)"/>
+              <rect x="46" y="36" width="28" height="36" rx="3" fill="var(--m-b)"/>
+              <rect x="78" y="36" width="28" height="36" rx="3" fill="var(--m-c)"/>
+            </svg>
+          </div>
           <h3>Sites Institucionais</h3>
           <p>Presença profissional completa para sua empresa.</p>
-          <div class="price"><s>R$ 1.500</s><b>R$ 800</b><span class="tag">Promoção</span><a href="#contato" aria-label="Pedir orçamento de site institucional">Pedir ›</a></div>
+          <div class="price">
+            <s>R$ 1.500</s><b>R$ 800</b><span class="tag">Promoção</span>
+            <a href="#orcamento" data-tipo="Site Institucional" aria-label="Pedir orçamento de site institucional">Pedir ›</a>
+          </div>
         </article>
+
+        <!-- Lojas Virtuais -->
         <article class="svc reveal">
-          <div class="mock"><svg viewBox="0 0 120 84" aria-hidden="true"><rect width="120" height="84" rx="6" fill="var(--card)"/><rect width="120" height="12" rx="6" fill="var(--m-frame)"/><circle cx="8" cy="6" r="2" fill="#ff5f57"/><circle cx="14" cy="6" r="2" fill="#febc2e"/><circle cx="20" cy="6" r="2" fill="#28c840"/><rect x="14" y="20" width="28" height="26" rx="3" fill="var(--m-b)"/><rect x="46" y="20" width="28" height="26" rx="3" fill="var(--m-c)"/><rect x="78" y="20" width="28" height="26" rx="3" fill="var(--m-b)"/><rect x="14" y="50" width="28" height="7" rx="3.5" fill="var(--m-a)"/><rect x="46" y="50" width="28" height="7" rx="3.5" fill="var(--m-a)"/><rect x="78" y="50" width="28" height="7" rx="3.5" fill="var(--m-a)"/><rect x="14" y="63" width="92" height="9" rx="4.5" fill="none" stroke="var(--m-c)"/></svg></div>
+          <div class="mock">
+            <svg viewBox="0 0 120 84" aria-hidden="true">
+              <rect width="120" height="84" rx="6" fill="var(--card)"/>
+              <rect width="120" height="12" rx="6" fill="var(--m-frame)"/>
+              <circle cx="8" cy="6" r="2" fill="#ff5f57"/>
+              <circle cx="14" cy="6" r="2" fill="#febc2e"/>
+              <circle cx="20" cy="6" r="2" fill="#28c840"/>
+              <rect x="14" y="20" width="28" height="26" rx="3" fill="var(--m-b)"/>
+              <rect x="46" y="20" width="28" height="26" rx="3" fill="var(--m-c)"/>
+              <rect x="78" y="20" width="28" height="26" rx="3" fill="var(--m-b)"/>
+              <rect x="14" y="50" width="28" height="7" rx="3.5" fill="var(--m-a)"/>
+              <rect x="46" y="50" width="28" height="7" rx="3.5" fill="var(--m-a)"/>
+              <rect x="78" y="50" width="28" height="7" rx="3.5" fill="var(--m-a)"/>
+              <rect x="14" y="63" width="92" height="9" rx="4.5" fill="none" stroke="var(--m-c)"/>
+            </svg>
+          </div>
           <h3>Lojas Virtuais</h3>
           <p>Venda online com checkout e gestão.</p>
-          <div class="price"><span class="ask">Sob consulta</span><a href="#contato" aria-label="Pedir orçamento de loja virtual">Pedir ›</a></div>
+          <div class="price">
+            <span class="ask">Sob consulta</span>
+            <a href="#orcamento" data-tipo="Loja Virtual" aria-label="Pedir orçamento de loja virtual">Pedir ›</a>
+          </div>
         </article>
+
+        <!-- Sistemas Web -->
         <article class="svc reveal">
-          <div class="mock"><svg viewBox="0 0 120 84" aria-hidden="true"><rect width="120" height="84" rx="6" fill="var(--card)"/><rect width="120" height="12" rx="6" fill="var(--m-frame)"/><circle cx="8" cy="6" r="2" fill="#ff5f57"/><circle cx="14" cy="6" r="2" fill="#febc2e"/><circle cx="20" cy="6" r="2" fill="#28c840"/><rect x="14" y="20" width="22" height="52" rx="3" fill="var(--m-c)"/><circle cx="25" cy="29" r="4" fill="var(--m-a)"/><rect x="40" y="20" width="66" height="12" rx="3" fill="var(--m-d)"/><rect x="40" y="36" width="32" height="36" rx="3" fill="var(--m-b)"/><rect x="76" y="36" width="30" height="36" rx="3" fill="var(--m-c)"/><path d="M44 64 L52 54 L58 59 L68 46" stroke="var(--m-a)" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+          <div class="mock">
+            <svg viewBox="0 0 120 84" aria-hidden="true">
+              <rect width="120" height="84" rx="6" fill="var(--card)"/>
+              <rect width="120" height="12" rx="6" fill="var(--m-frame)"/>
+              <circle cx="8" cy="6" r="2" fill="#ff5f57"/>
+              <circle cx="14" cy="6" r="2" fill="#febc2e"/>
+              <circle cx="20" cy="6" r="2" fill="#28c840"/>
+              <rect x="14" y="20" width="22" height="52" rx="3" fill="var(--m-c)"/>
+              <circle cx="25" cy="29" r="4" fill="var(--m-a)"/>
+              <rect x="40" y="20" width="66" height="12" rx="3" fill="var(--m-d)"/>
+              <rect x="40" y="36" width="32" height="36" rx="3" fill="var(--m-b)"/>
+              <rect x="76" y="36" width="30" height="36" rx="3" fill="var(--m-c)"/>
+              <path d="M44 64 L52 54 L58 59 L68 46" stroke="var(--m-a)" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
           <h3>Sistemas Web</h3>
           <p>Dashboards, áreas logadas e automações.</p>
-          <div class="price"><span class="ask">Sob consulta</span><a href="#contato" aria-label="Pedir orçamento de sistema web">Pedir ›</a></div>
+          <div class="price">
+            <span class="ask">Sob consulta</span>
+            <a href="#orcamento" data-tipo="Sistema Web" aria-label="Pedir orçamento de sistema web">Pedir ›</a>
+          </div>
         </article>
+
+        <!-- Portfólios Profissionais -->
         <article class="svc reveal">
-          <div class="mock"><svg viewBox="0 0 120 84" aria-hidden="true"><rect width="120" height="84" rx="6" fill="var(--card)"/><rect width="120" height="12" rx="6" fill="var(--m-frame)"/><circle cx="8" cy="6" r="2" fill="#ff5f57"/><circle cx="14" cy="6" r="2" fill="#febc2e"/><circle cx="20" cy="6" r="2" fill="#28c840"/><rect x="14" y="20" width="42" height="26" rx="3" fill="var(--m-c)"/><circle cx="28" cy="31" r="5" fill="var(--m-a)"/><rect x="60" y="20" width="46" height="26" rx="3" fill="var(--m-b)"/><rect x="14" y="50" width="46" height="22" rx="3" fill="var(--m-b)"/><rect x="64" y="50" width="42" height="22" rx="3" fill="var(--m-c)"/></svg></div>
+          <div class="mock">
+            <svg viewBox="0 0 120 84" aria-hidden="true">
+              <rect width="120" height="84" rx="6" fill="var(--card)"/>
+              <rect width="120" height="12" rx="6" fill="var(--m-frame)"/>
+              <circle cx="8" cy="6" r="2" fill="#ff5f57"/>
+              <circle cx="14" cy="6" r="2" fill="#febc2e"/>
+              <circle cx="20" cy="6" r="2" fill="#28c840"/>
+              <rect x="14" y="20" width="42" height="26" rx="3" fill="var(--m-c)"/>
+              <circle cx="28" cy="31" r="5" fill="var(--m-a)"/>
+              <rect x="60" y="20" width="46" height="26" rx="3" fill="var(--m-b)"/>
+              <rect x="14" y="50" width="46" height="22" rx="3" fill="var(--m-b)"/>
+              <rect x="64" y="50" width="42" height="22" rx="3" fill="var(--m-c)"/>
+            </svg>
+          </div>
           <h3>Portfólios Profissionais</h3>
           <p>Mostre seu trabalho com clareza e elegância.</p>
-          <div class="price"><span class="ask">Sob consulta</span><a href="#contato" aria-label="Pedir orçamento de portfólio">Pedir ›</a></div>
+          <div class="price">
+            <span class="ask">Sob consulta</span>
+            <a href="#orcamento" data-tipo="Portfólio Profissional" aria-label="Pedir orçamento de portfólio">Pedir ›</a>
+          </div>
         </article>
+
+        <!-- Soluções Personalizadas -->
         <article class="svc reveal">
-          <div class="mock"><svg viewBox="0 0 120 84" aria-hidden="true"><rect width="120" height="84" rx="6" fill="var(--card)"/><rect width="120" height="12" rx="6" fill="var(--m-frame)"/><circle cx="8" cy="6" r="2" fill="#ff5f57"/><circle cx="14" cy="6" r="2" fill="#febc2e"/><circle cx="20" cy="6" r="2" fill="#28c840"/><rect x="14" y="20" width="92" height="52" rx="4" fill="none" stroke="var(--m-a)" stroke-dasharray="3 3"/><rect x="22" y="28" width="52" height="5" rx="2.5" fill="var(--m-a)"/><rect x="22" y="38" width="70" height="5" rx="2.5" fill="var(--m-c)"/><rect x="22" y="48" width="44" height="5" rx="2.5" fill="var(--m-c)"/><rect x="22" y="58" width="28" height="8" rx="4" fill="var(--m-d)"/></svg></div>
+          <div class="mock">
+            <svg viewBox="0 0 120 84" aria-hidden="true">
+              <rect width="120" height="84" rx="6" fill="var(--card)"/>
+              <rect width="120" height="12" rx="6" fill="var(--m-frame)"/>
+              <circle cx="8" cy="6" r="2" fill="#ff5f57"/>
+              <circle cx="14" cy="6" r="2" fill="#febc2e"/>
+              <circle cx="20" cy="6" r="2" fill="#28c840"/>
+              <rect x="14" y="20" width="92" height="52" rx="4" fill="none" stroke="var(--m-a)" stroke-dasharray="3 3"/>
+              <rect x="22" y="28" width="52" height="5" rx="2.5" fill="var(--m-a)"/>
+              <rect x="22" y="38" width="70" height="5" rx="2.5" fill="var(--m-c)"/>
+              <rect x="22" y="48" width="44" height="5" rx="2.5" fill="var(--m-c)"/>
+              <rect x="22" y="58" width="28" height="8" rx="4" fill="var(--m-d)"/>
+            </svg>
+          </div>
           <h3>Soluções Personalizadas</h3>
           <p>Escopo sob medida, do protótipo ao MVP.</p>
-          <div class="price"><span class="ask">Sob consulta</span><a href="#contato" aria-label="Pedir orçamento de solução personalizada">Pedir ›</a></div>
+          <div class="price">
+            <span class="ask">Sob consulta</span>
+            <a href="#orcamento" data-tipo="Solução Personalizada" aria-label="Pedir orçamento de solução personalizada">Pedir ›</a>
+          </div>
         </article>
+
       </div>
     </div>
   </section>
 
-  <!-- Como funciona -->
+
+  <!-- ========================= COMO FUNCIONA ========================= -->
   <section class="alt" id="como-funciona">
     <div class="wrap">
       <div class="sec-head reveal">
@@ -391,32 +1357,53 @@ footer a:hover{color:var(--label)}
         <h2>Simples e rápido.</h2>
         <p class="lead">Um processo enxuto, acompanhado de perto, com entrega média em 7 dias úteis.</p>
       </div>
+
+      <!-- Os números 1–4 são gerados pelo CSS (.steps li::before) -->
       <ol class="steps">
-        <li class="reveal"><h3>Diagnóstico</h3><p>Conversamos pelo Discord ou por e-mail para entender seu negócio, seu público e seus objetivos.</p></li>
-        <li class="reveal"><h3>Design e estratégia</h3><p>Criamos o layout, a estrutura de páginas e os caminhos que levam o visitante até o contato.</p></li>
-        <li class="reveal"><h3>Desenvolvimento</h3><p>Site rápido, responsivo e otimizado para o Google, com integrações de Discord, e-mail e formulários.</p></li>
-        <li class="reveal"><h3>Entrega</h3><p>Publicamos o site, testamos tudo e entregamos com suporte oficial da VITIN Design Co.</p></li>
+        <li class="reveal">
+          <h3>Diagnóstico</h3>
+          <p>Conversamos pelo Discord ou por e-mail para entender seu negócio, seu público e seus objetivos.</p>
+        </li>
+        <li class="reveal">
+          <h3>Design e estratégia</h3>
+          <p>Criamos o layout, a estrutura de páginas e os caminhos que levam o visitante até o contato.</p>
+        </li>
+        <li class="reveal">
+          <h3>Desenvolvimento</h3>
+          <p>Site rápido, responsivo e otimizado para o Google, com integrações de Discord, e-mail e formulários.</p>
+        </li>
+        <li class="reveal">
+          <h3>Entrega</h3>
+          <p>Publicamos o site, testamos tudo e entregamos com suporte oficial da VITIN Design Co.</p>
+        </li>
       </ol>
+
       <div class="note reveal">
         <p><b>2 rodadas de revisão</b> em cada etapa · 50% de entrada e 50% na entrega, via Pix ou cartão.</p>
-        <a class="btn btn-fill" href="#contato">Quero meu site</a>
+        <a class="btn btn-fill" href="#orcamento">Quero meu site</a>
       </div>
     </div>
   </section>
 
-  <!-- Avaliações -->
+
+  <!-- ========================= AVALIAÇÕES =========================
+       O resumo (nota e barras) é fixo aqui no HTML.
+       Os cards são gerados pelo JS a partir do array REVIEWS. -->
   <section id="avaliacoes">
     <div class="wrap">
       <div class="sec-head reveal">
         <p class="eyebrow">Avaliações</p>
         <h2>Quem já tem um site VITIN.</h2>
       </div>
+
       <div class="rating reveal">
         <div>
           <div class="big">4,8</div>
           <div class="stars" aria-label="4,8 de 5 estrelas">★★★★★</div>
           <div class="muted" style="font-size:15px">25 avaliações</div>
         </div>
+
+        <!-- --w = porcentagem do total de avaliações com aquela nota -->
         <div class="bars" aria-label="Distribuição das notas">
           <div><span>5</span><i style="--w:84%"></i><span>21</span></div>
           <div><span>4</span><i style="--w:12%"></i><span>3</span></div>
@@ -425,12 +1412,18 @@ footer a:hover{color:var(--label)}
           <div><span>1</span><i style="--w:0%"></i><span>0</span></div>
         </div>
       </div>
+
       <div class="reviews" id="reviews"></div>
-      <div class="more"><button class="btn btn-tint" id="moreBtn" aria-controls="reviews">Mostrar todas as 25 avaliações</button></div>
+
+      <div class="more">
+        <button class="btn btn-tint" id="moreBtn" aria-controls="reviews">Mostrar todas as 25 avaliações</button>
+      </div>
     </div>
   </section>
 
-  <!-- FAQ -->
+
+  <!-- ========================= FAQ =========================
+       As perguntas são geradas pelo JS a partir do array FAQS. -->
   <section class="alt" id="faq">
     <div class="wrap">
       <div class="sec-head reveal">
@@ -441,7 +1434,8 @@ footer a:hover{color:var(--label)}
     </div>
   </section>
 
-  <!-- CTA -->
+
+  <!-- ========================= CONTATO (CTA) ========================= -->
   <section id="contato">
     <div class="wrap cta reveal">
       <h2>Pronto para começar<br>seu próximo site?</h2>
@@ -450,18 +1444,105 @@ footer a:hover{color:var(--label)}
         <a class="btn btn-fill" href="mailto:vitinpimentel389@gmail.com?subject=Or%C3%A7amento%20%E2%80%94%20VITIN%20Design%20Co.&body=Ol%C3%A1!%20Queria%20saber%20sobre...">Pedir orçamento por e-mail</a>
         <a class="btn btn-tint" href="https://discord.gg/PHyUxHB3j" target="_blank" rel="noopener">Entrar no Discord</a>
       </div>
-      <div class="assure"><span>Resposta em minutos</span><span>Sem compromisso</span><span>Orçamento sob medida</span></div>
+      <div class="assure">
+        <span>Resposta em minutos</span>
+        <span>Sem compromisso</span>
+        <span>Orçamento sob medida</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================= ORÇAMENTO =========================
+       Formulário de agendamento. A validação é feita pelo JS (por isso o
+       "novalidate"): cada campo mostra o erro no <p class="err"> ligado a ele
+       pelo aria-describedby. Nada é salvo no navegador. -->
+  <section class="alt" id="orcamento">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Orçamento</p>
+        <h2>Agende uma conversa.</h2>
+        <p class="lead">Escolha um horário e conversamos sobre o seu projeto pelo Discord. Sem compromisso.</p>
+      </div>
+
+      <ul class="info reveal" aria-label="Disponibilidade">
+        <li>Segunda a sexta</li>
+        <li>9h às 18h</li>
+        <li>Horário de Brasília</li>
+      </ul>
+
+      <form class="panel form reveal" id="budgetForm" novalidate>
+        <div class="field">
+          <label for="fNome">Nome</label>
+          <input class="input" id="fNome" name="nome" autocomplete="name" placeholder="Seu nome" required aria-describedby="eNome">
+          <p class="err" id="eNome"></p>
+        </div>
+
+        <div class="field">
+          <label for="fEmail">E-mail</label>
+          <input class="input" id="fEmail" name="email" type="email" autocomplete="email" inputmode="email" placeholder="voce@email.com" required aria-describedby="eEmail">
+          <p class="err" id="eEmail"></p>
+        </div>
+
+        <div class="field">
+          <label for="fData">Data</label>
+          <input class="input" id="fData" name="data" type="date" required aria-describedby="eData">
+          <p class="err" id="eData"></p>
+        </div>
+
+        <div class="field">
+          <label for="fHora">Horário</label>
+          <!-- As opções são preenchidas pelo JS (updateTimeSlots) -->
+          <select class="input" id="fHora" name="hora" required aria-describedby="eHora"></select>
+          <p class="err" id="eHora"></p>
+        </div>
+
+        <div class="field full">
+          <label for="fTipo">Tipo de projeto</label>
+          <select class="input" id="fTipo" name="tipo">
+            <option>Contato breve</option>
+            <option>Landing Page</option>
+            <option>Site Institucional</option>
+            <option>Loja Virtual</option>
+            <option>Sistema Web</option>
+            <option>Portfólio Profissional</option>
+            <option>Solução Personalizada</option>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label for="fDiscord">Discord <small>(obrigatório)</small></label>
+          <input class="input" id="fDiscord" name="discord" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="@seuusuario" required aria-describedby="eDiscord">
+          <p class="err" id="eDiscord"></p>
+        </div>
+
+        <div class="field full">
+          <label for="fObs">Observações <small>(opcional)</small></label>
+          <textarea class="input" id="fObs" name="obs" placeholder="Conte um pouco sobre o projeto, referências, prazo…"></textarea>
+        </div>
+
+        <div class="form-foot">
+          <button class="btn btn-fill" type="submit">Confirmar pedido</button>
+          <p>Depois de confirmar, você escolhe como enviar: Discord ou e-mail.</p>
+        </div>
+      </form>
     </div>
   </section>
 </main>
 
+
+<!-- ========================= RODAPÉ ========================= -->
 <footer>
   <div class="wrap">
     <div class="fcols">
       <div class="fbrand">
-        <a class="brand" href="#top"><img src="favicon.svg" alt="" width="28" height="28"><span>VITIN Design Co.</span></a>
+        <a class="brand" href="#top">
+          <img src="favicon.svg" alt="" width="28" height="28">
+          <span>VITIN Design Co.</span>
+        </a>
         <p>Criação de sites profissionais e suporte dedicado. Seu negócio conectado ao digital.</p>
       </div>
+
       <nav aria-label="Rodapé">
         <h4>Navegação</h4>
         <ul>
@@ -469,8 +1550,10 @@ footer a:hover{color:var(--label)}
           <li><a href="#servicos">Serviços</a></li>
           <li><a href="#como-funciona">Como funciona</a></li>
           <li><a href="#faq">FAQ</a></li>
+          <li><a href="#orcamento">Orçamento</a></li>
         </ul>
       </nav>
+
       <div>
         <h4>Serviços</h4>
         <ul>
@@ -481,111 +1564,660 @@ footer a:hover{color:var(--label)}
           <li><a href="#servicos">Portfólios</a></li>
         </ul>
       </div>
+
       <div>
         <h4>Contato</h4>
         <ul>
-          <li class="mail"><a href="mailto:vitinpimentel389@gmail.com">vitinpimentel389@gmail.com</a><button type="button" class="copy" id="copyMail">Copiar</button></li>
+          <li class="mail">
+            <a href="mailto:vitinpimentel389@gmail.com">vitinpimentel389@gmail.com</a>
+            <button type="button" class="copy" id="copyMail">Copiar</button>
+          </li>
           <li><a href="https://discord.gg/PHyUxHB3j" target="_blank" rel="noopener">Comunidade no Discord</a></li>
           <li>TikTok, YouTube e WhatsApp<span class="soon">Em breve</span></li>
         </ul>
       </div>
     </div>
-    <div class="legal"><span>© 2026 VITIN Design Co. Todos os direitos reservados.</span><span>Feito no Brasil</span></div>
+
+    <div class="legal">
+      <span>© 2026 VITIN Design Co. Todos os direitos reservados.</span>
+      <span>Feito no Brasil</span>
+    </div>
   </div>
 </footer>
 
+
+<!-- ========================= POP-UP PÓS-PEDIDO =========================
+       Aberto pelo JS depois que o formulário é validado. O resumo (#doneSum)
+       e o link de e-mail (#mailBtn) são preenchidos com os dados do pedido. -->
+<dialog class="sheet" id="doneDlg" aria-labelledby="doneTitle">
+  <div class="sheet-in">
+    <button class="x" type="button" id="dlgClose" aria-label="Fechar">
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M2 2l10 10M12 2L2 12"/>
+      </svg>
+    </button>
+
+    <div class="ok" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12.5l4.5 4.5L19 7.5"/>
+      </svg>
+    </div>
+
+    <h2 id="doneTitle">Solicitação registrada.</h2>
+    <p class="sum" id="doneSum"></p>
+    <p class="then">Escolha como enviar e <b>aguarde a confirmação</b> da nossa equipe.</p>
+
+    <!-- Etapas: o JS adiciona .done conforme o cliente baixa o PDF e envia -->
+    <ol class="flow" aria-label="Etapas">
+      <li class="done">Solicitação</li>
+      <li id="stPdf">PDF</li>
+      <li id="stSend">Ticket</li>
+    </ol>
+
+    <p class="why"><b>Por que o Discord?</b> Ainda não temos WhatsApp oficial. Escolha como continuar, <b>Discord ou e-mail</b>, você decide:</p>
+    <ol class="howto">
+      <li><span><b>Baixe o PDF</b> com os dados do seu agendamento.</span></li>
+      <li><span><b>Crie um ticket</b> no canal <span class="chan">#🛒・tickets</span> do Discord.</span></li>
+      <li><span><b>Envie o PDF</b> dentro do seu ticket para a equipe.</span></li>
+      <li><span><b>Aguarde</b> a confirmação da nossa equipe.</span></li>
+    </ol>
+
+    <div class="sheet-acts">
+      <button class="btn btn-fill" type="button" id="pdfBtn" autofocus>Baixar agendamento em PDF</button>
+      <a class="btn btn-tint" id="ticketBtn" href="https://discord.gg/PHyUxHB3j" target="_blank" rel="noopener">Abrir ticket no Discord</a>
+      <a class="btn btn-tint" id="mailBtn" href="mailto:vitinpimentel389@gmail.com">Enviar por e-mail</a>
+    </div>
+  </div>
+</dialog>
+
+<!-- Aviso rápido (ex.: "E-mail copiado") -->
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+
 <script>
+// Marca que o JS está rodando. O CSS só esconde os elementos .reveal (para animá-los)
+// quando essa classe existe; se o script falhar, a página continua toda visível.
 document.documentElement.classList.add('js');
 
+
+/* =============================================================================
+   1. CONTEÚDO EDITÁVEL
+   Para mudar textos de avaliações e perguntas, edite aqui (não no HTML).
+   ============================================================================= */
+
+// Avaliações: [nome, origem, texto]
 const REVIEWS = [
-  ['Marcela','Discord','O Vitin é um profissional dedicado, preocupado com a entrega. Mesmo sem entender sobre o assunto, ele manteve uma escuta atenta às minhas necessidades e a entrega foi sempre rápida e excelente. Deixou tudo a minha cara. Nota 10!'],
-  ['Alberto STN','Discord','O cara é top, eu recomendo muito! Seus projetos são massa!'],
-  ['Fernanda Lima','Cliente','Meu e-commerce ficou incrível e as vendas aumentaram. Atendimento nota 10.'],
-  ['Thiago Barros','Cliente','Site institucional perfeito para a minha clínica. Agendamentos aumentaram.'],
-  ['Felipe Andrade','Cliente','Landing page que converteu muito bem. Tráfego pago rendeu o dobro.'],
-  ['Juliana Rocha','Cliente','Meu portfólio ficou maravilhoso e carrega super rápido. Obrigada!'],
-  ['João Pedro','Cliente','Entrega rápida e um resultado muito acima do esperado. Site leve e bonito.'],
-  ['Carla Nunes','Cliente','Comunicação clara do início ao fim. Recomendo de olhos fechados!'],
-  ['Rafael','Cliente','Site premium e suporte impecável. Resolveram tudo em minutos.'],
-  ['Bruno Alves','Cliente','Profissional que realmente entende de conversão. Investimento que valeu cada centavo.'],
-  ['Patrícia Souza','Cliente','Amei o layout! Ficou exatamente como eu imaginava, só que melhor.'],
-  ['Diego Martins','Cliente','Rápido, atencioso e muito competente. Já indiquei para vários amigos.'],
-  ['Marcos Vinícius','Cliente','Do briefing à entrega foi tudo transparente. Recomendo demais.'],
-  ['Camila Ferreira','Cliente','Design moderno e clean. Superou minhas expectativas.'],
-  ['Letícia Gomes','Cliente','Atendimento humano e entrega no prazo. Nota mil!'],
-  ['Rodrigo Mendes','Cliente','Trabalho técnico de altíssimo nível. Site voando no celular.'],
-  ['Aline Costa','Cliente','Ficou com a minha cara! Prezaram cada detalhe do meu estilo.'],
-  ['Gustavo Pires','Cliente','Melhor custo-benefício que já vi. Suporte pós-entrega excelente.'],
-  ['Bianca Ramos','Cliente','Muito atencioso, tirou todas as minhas dúvidas de leiga. Amei!'],
-  ['Vanessa Dias','Cliente','Entrega impecável e dentro do prazo. Recomendo sem medo.'],
-  ['Leonardo Nunes','Cliente','Site rápido, responsivo e elegante. Ficou profissional demais.'],
-  ['Priscila Melo','Cliente','Superou tudo que eu esperava. Meu negócio ganhou outra cara.'],
-  ['André Cardoso','Cliente','Ótima comunicação e ideias criativas. Parceria que deu certo.'],
-  ['Débora Antunes','Cliente','Ficou perfeito no mobile e no desktop. Cliente feliz!'],
-  ['Vitor Hugo','Cliente','Serviço nota 10, do começo ao fim. Voltarei para novos projetos.'],
+  ['Marcela', 'Discord', 'O Vitin é um profissional dedicado, preocupado com a entrega. Mesmo sem entender sobre o assunto, ele manteve uma escuta atenta às minhas necessidades e a entrega foi sempre rápida e excelente. Deixou tudo a minha cara. Nota 10!'],
+  ['Alberto STN', 'Discord', 'O cara é top, eu recomendo muito! Seus projetos são massa!'],
+  ['Fernanda Lima', 'Cliente', 'Meu e-commerce ficou incrível e as vendas aumentaram. Atendimento nota 10.'],
+  ['Thiago Barros', 'Cliente', 'Site institucional perfeito para a minha clínica. Agendamentos aumentaram.'],
+  ['Felipe Andrade', 'Cliente', 'Landing page que converteu muito bem. Tráfego pago rendeu o dobro.'],
+  ['Juliana Rocha', 'Cliente', 'Meu portfólio ficou maravilhoso e carrega super rápido. Obrigada!'],
+  ['João Pedro', 'Cliente', 'Entrega rápida e um resultado muito acima do esperado. Site leve e bonito.'],
+  ['Carla Nunes', 'Cliente', 'Comunicação clara do início ao fim. Recomendo de olhos fechados!'],
+  ['Rafael', 'Cliente', 'Site premium e suporte impecável. Resolveram tudo em minutos.'],
+  ['Bruno Alves', 'Cliente', 'Profissional que realmente entende de conversão. Investimento que valeu cada centavo.'],
+  ['Patrícia Souza', 'Cliente', 'Amei o layout! Ficou exatamente como eu imaginava, só que melhor.'],
+  ['Diego Martins', 'Cliente', 'Rápido, atencioso e muito competente. Já indiquei para vários amigos.'],
+  ['Marcos Vinícius', 'Cliente', 'Do briefing à entrega foi tudo transparente. Recomendo demais.'],
+  ['Camila Ferreira', 'Cliente', 'Design moderno e clean. Superou minhas expectativas.'],
+  ['Letícia Gomes', 'Cliente', 'Atendimento humano e entrega no prazo. Nota mil!'],
+  ['Rodrigo Mendes', 'Cliente', 'Trabalho técnico de altíssimo nível. Site voando no celular.'],
+  ['Aline Costa', 'Cliente', 'Ficou com a minha cara! Prezaram cada detalhe do meu estilo.'],
+  ['Gustavo Pires', 'Cliente', 'Melhor custo-benefício que já vi. Suporte pós-entrega excelente.'],
+  ['Bianca Ramos', 'Cliente', 'Muito atencioso, tirou todas as minhas dúvidas de leiga. Amei!'],
+  ['Vanessa Dias', 'Cliente', 'Entrega impecável e dentro do prazo. Recomendo sem medo.'],
+  ['Leonardo Nunes', 'Cliente', 'Site rápido, responsivo e elegante. Ficou profissional demais.'],
+  ['Priscila Melo', 'Cliente', 'Superou tudo que eu esperava. Meu negócio ganhou outra cara.'],
+  ['André Cardoso', 'Cliente', 'Ótima comunicação e ideias criativas. Parceria que deu certo.'],
+  ['Débora Antunes', 'Cliente', 'Ficou perfeito no mobile e no desktop. Cliente feliz!'],
+  ['Vitor Hugo', 'Cliente', 'Serviço nota 10, do começo ao fim. Voltarei para novos projetos.'],
 ];
 
+// Perguntas frequentes: [pergunta, resposta]
 const FAQS = [
-  ['Quanto custa um site?','O valor depende da complexidade. Landing Pages começam em R$ 600 e Sites Institucionais em R$ 800 com o desconto vigente. Lojas virtuais e sistemas personalizados são calculados sob medida.'],
-  ['O que está incluso no projeto?','Layout 100% exclusivo e personalizado, otimização de velocidade (foco em nota 90+ no PageSpeed), estrutura pronta para SEO, design responsivo para celular e computador, e suporte pós-entrega.'],
-  ['Quanto tempo demora?','Landing Page ou Portfólio: 3 a 7 dias úteis. Sites institucionais completos ou sistemas web: 15 a 30 dias. O prazo exato aparece na sua proposta.'],
-  ['Posso pedir alterações?','Sim. Cada etapa inclui 2 rodadas de revisão. Ajustes de texto, cor e disposição são gratuitos dentro do escopo aprovado. Novas páginas ou funcionalidades viram um novo item de orçamento.'],
-  ['Preciso ter textos e fotos prontos?','Não é obrigatório. Se você já tiver o conteúdo, otimizamos tudo. Se não tiver, ajudamos a organizar as informações essenciais e indicamos bancos de imagens.'],
-  ['Como funciona o pagamento?','50% de entrada para iniciar e 50% na entrega, via Pix ou cartão. Projetos maiores podem ser divididos em etapas ao longo do desenvolvimento.'],
-  ['O domínio e a hospedagem estão inclusos?','Ficam no seu nome, para o projeto ser 100% seu. Damos suporte gratuito para escolher e configurar o domínio no Registro.br e a hospedagem (Vercel, Netlify ou Hostinger).'],
-  ['Vocês fazem manutenção?','Sim. Há planos mensais com atualizações, backups, correções e suporte prioritário, ou atendimento pontual sem mensalidade.'],
-  ['O que é o Discord e por que usam ele?','O Discord é um app gratuito de conversa por texto, voz e arquivos. É a nossa central oficial de atendimento: lá você acompanha seu projeto em tempo real.'],
+  ['Quanto custa um site?', 'O valor depende da complexidade. Landing Pages começam em R$ 600 e Sites Institucionais em R$ 800 com o desconto vigente. Lojas virtuais e sistemas personalizados são calculados sob medida.'],
+  ['O que está incluso no projeto?', 'Layout 100% exclusivo e personalizado, otimização de velocidade (foco em nota 90+ no PageSpeed), estrutura pronta para SEO, design responsivo para celular e computador, e suporte pós-entrega.'],
+  ['Quanto tempo demora?', 'Landing Page ou Portfólio: 3 a 7 dias úteis. Sites institucionais completos ou sistemas web: 15 a 30 dias. O prazo exato aparece na sua proposta.'],
+  ['Posso pedir alterações?', 'Sim. Cada etapa inclui 2 rodadas de revisão. Ajustes de texto, cor e disposição são gratuitos dentro do escopo aprovado. Novas páginas ou funcionalidades viram um novo item de orçamento.'],
+  ['Preciso ter textos e fotos prontos?', 'Não é obrigatório. Se você já tiver o conteúdo, otimizamos tudo. Se não tiver, ajudamos a organizar as informações essenciais e indicamos bancos de imagens.'],
+  ['Como funciona o pagamento?', '50% de entrada para iniciar e 50% na entrega, via Pix ou cartão. Projetos maiores podem ser divididos em etapas ao longo do desenvolvimento.'],
+  ['O domínio e a hospedagem estão inclusos?', 'Ficam no seu nome, para o projeto ser 100% seu. Damos suporte gratuito para escolher e configurar o domínio no Registro.br e a hospedagem (Vercel, Netlify ou Hostinger).'],
+  ['Vocês fazem manutenção?', 'Sim. Há planos mensais com atualizações, backups, correções e suporte prioritário, ou atendimento pontual sem mensalidade.'],
+  ['O que é o Discord e por que usam ele?', 'O Discord é um app gratuito de conversa por texto, voz e arquivos. É a nossa central oficial de atendimento: lá você acompanha seu projeto em tempo real.'],
 ];
 
-const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const INITIAL = 6;
+// Contatos usados pelo botão "Copiar", pelo e-mail do pedido e pelo PDF
+const EMAIL = 'vitinpimentel389@gmail.com';
+const DISCORD = 'discord.gg/PHyUxHB3j';
 
-document.getElementById('reviews').innerHTML = REVIEWS.map(([n, tag, t], i) => `
-  <figure class="rev"${i >= INITIAL ? ' hidden' : ''}>
+
+/* =============================================================================
+   2. UTILITÁRIOS
+   ============================================================================= */
+
+const byId = id => document.getElementById(id);
+
+/** Escapa caracteres especiais antes de colocar texto dentro de innerHTML. */
+function escapeHtml(text) {
+  const entities = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' };
+  return text.replace(/[&<>"]/g, char => entities[char]);
+}
+
+
+/* =============================================================================
+   3. AVALIAÇÕES
+   Mostra as 6 primeiras; o botão alterna entre mostrar todas e recolher.
+   ============================================================================= */
+
+const REVIEWS_SHOWN_AT_START = 6;
+const reviewsList = byId('reviews');
+const moreButton = byId('moreBtn');
+
+function reviewCard([name, source, text], index) {
+  const hidden = index >= REVIEWS_SHOWN_AT_START ? ' hidden' : '';
+  return `
+  <figure class="rev"${hidden}>
     <div class="stars" aria-label="5 de 5 estrelas">★★★★★</div>
-    <blockquote>“${esc(t)}”</blockquote>
-    <figcaption><span class="av" aria-hidden="true">${esc(n[0])}</span><span>${esc(n)}<small>${esc(tag)}</small></span></figcaption>
-  </figure>`).join('');
+    <blockquote>“${escapeHtml(text)}”</blockquote>
+    <figcaption>
+      <span class="av" aria-hidden="true">${escapeHtml(name[0])}</span>
+      <span>${escapeHtml(name)}<small>${escapeHtml(source)}</small></span>
+    </figcaption>
+  </figure>`;
+}
 
-const moreBtn = document.getElementById('moreBtn');
-moreBtn.addEventListener('click', () => {
-  const hidden = document.querySelectorAll('.rev[hidden]');
-  const expanding = hidden.length > 0;
-  document.querySelectorAll('.rev').forEach((el, i) => { el.hidden = expanding ? false : i >= INITIAL; });
-  moreBtn.textContent = expanding ? 'Mostrar menos' : 'Mostrar todas as 25 avaliações';
-  if (!expanding) document.getElementById('avaliacoes').scrollIntoView();
+reviewsList.innerHTML = REVIEWS.map(reviewCard).join('');
+
+moreButton.addEventListener('click', () => {
+  const isExpanding = reviewsList.querySelector('.rev[hidden]') !== null;
+
+  reviewsList.querySelectorAll('.rev').forEach((card, index) => {
+    card.hidden = isExpanding ? false : index >= REVIEWS_SHOWN_AT_START;
+  });
+  moreButton.textContent = isExpanding ? 'Mostrar menos' : 'Mostrar todas as 25 avaliações';
+
+  // Ao recolher, volta para o topo da seção (senão a pessoa fica "perdida" mais abaixo)
+  if (!isExpanding) byId('avaliacoes').scrollIntoView();
 });
 
-document.getElementById('faqList').innerHTML = FAQS.map(([q, a]) =>
-  `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('');
 
-// Menu (compact widths)
-const menuBtn = document.getElementById('menuBtn'), links = document.getElementById('links');
-const setMenu = open => {
-  links.classList.toggle('open', open);
-  menuBtn.setAttribute('aria-expanded', open);
-  menuBtn.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+/* =============================================================================
+   4. FAQ — cada pergunta vira um <details> (abre e fecha sem JS)
+   ============================================================================= */
+
+byId('faqList').innerHTML = FAQS
+  .map(([question, answer]) => `<details><summary>${escapeHtml(question)}</summary><p>${escapeHtml(answer)}</p></details>`)
+  .join('');
+
+
+/* =============================================================================
+   5. MENU MOBILE
+   ============================================================================= */
+
+const menuButton = byId('menuBtn');
+const navLinks = byId('links');
+
+function setMenuOpen(open) {
+  navLinks.classList.toggle('open', open);
+  menuButton.setAttribute('aria-expanded', open);
+  menuButton.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+}
+
+menuButton.addEventListener('click', () => setMenuOpen(!navLinks.classList.contains('open')));
+
+// Fecha ao clicar em um link do menu ou ao apertar Esc
+navLinks.addEventListener('click', event => {
+  if (event.target.closest('a')) setMenuOpen(false);
+});
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') setMenuOpen(false);
+});
+
+
+/* =============================================================================
+   6. COPIAR E-MAIL (com aviso "toast")
+   ============================================================================= */
+
+const toast = byId('toast');
+let toastTimer;
+
+/** Mostra uma mensagem curta na parte de baixo da tela por ~2 segundos. */
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+}
+
+byId('copyMail').addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText(EMAIL);
+    showToast('E-mail copiado');
+  } catch {
+    showToast('Não foi possível copiar. Selecione o e-mail e copie manualmente.');
+  }
+});
+
+
+/* =============================================================================
+   7. FORMULÁRIO DE ORÇAMENTO
+   Atendimento de segunda a sexta, horários de 09:00 a 17:00 (Brasília).
+   Nada é salvo: o pedido segue em PDF pelo ticket do Discord ou por e-mail.
+   ============================================================================= */
+
+const TIMEZONE = 'America/Sao_Paulo';
+const TIME_SLOTS = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
+
+// ----- Datas ---------------------------------------------------------------
+// As datas circulam como texto 'AAAA-MM-DD' (o formato do <input type="date">),
+// o que permite compará-las direto com < e >.
+
+/**
+ * Data e hora atuais em Brasília: { date: 'AAAA-MM-DD', time: 'HH:MM' }.
+ * O formato sueco (sv-SE) devolve "2026-10-20 14:05:33", fácil de recortar.
+ */
+function nowInBrasilia() {
+  const stamp = new Date().toLocaleString('sv-SE', { timeZone: TIMEZONE });
+  return { date: stamp.slice(0, 10), time: stamp.slice(11, 16) };
+}
+
+/** 'AAAA-MM-DD' → Date no fuso local (new Date('AAAA-MM-DD') usaria UTC e poderia cair no dia anterior). */
+function parseDate(isoDate) {
+  const [year, month, day] = isoDate.split('-').map(Number);
+  return new Date(year, month - 1, day);
+}
+
+function isWeekday(isoDate) {
+  const weekday = parseDate(isoDate).getDay();   // 0 = domingo, 6 = sábado
+  return weekday > 0 && weekday < 6;
+}
+
+/** 'AAAA-MM-DD' → "ter., 21/10/2026" */
+function formatLongDate(isoDate) {
+  return parseDate(isoDate).toLocaleDateString('pt-BR', {
+    weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric',
+  });
+}
+
+/** 'AAAA-MM-DD' → "21/10/2026" */
+function formatShortDate(isoDate) {
+  return isoDate.split('-').reverse().join('/');
+}
+
+// ----- Campos --------------------------------------------------------------
+
+const form = byId('budgetForm');
+const field = name => form.elements[name];
+const dateInput = field('data');
+const timeSelect = field('hora');
+
+/**
+ * Preenche o <select> de horários para a data escolhida.
+ * Horários que já passaram ficam desativados. Mantém o horário que estava
+ * selecionado se ele ainda estiver livre; senão, escolhe o primeiro livre.
+ */
+function updateTimeSlots() {
+  const chosenDate = dateInput.value;
+  const now = nowInBrasilia();
+  const previousTime = timeSelect.value;
+
+  timeSelect.innerHTML = TIME_SLOTS.map(slot => {
+    const isPast = chosenDate && (chosenDate < now.date || (chosenDate === now.date && slot <= now.time));
+    const label = isPast ? `${slot} — indisponível` : slot;
+    return `<option value="${slot}"${isPast ? ' disabled' : ''}>${label}</option>`;
+  }).join('');
+
+  const freeTimes = [...timeSelect.options].filter(option => !option.disabled).map(option => option.value);
+  timeSelect.value = freeTimes.includes(previousTime) ? previousTime : (freeTimes[0] || '');
+}
+
+// ----- Validação -----------------------------------------------------------
+
+/**
+ * Mostra (ou limpa) a mensagem de erro de um campo.
+ * Retorna true quando o campo está válido (mensagem vazia).
+ */
+function setFieldError(name, message) {
+  const input = field(name);
+  const errorText = byId(input.getAttribute('aria-describedby'));
+
+  errorText.textContent = message;
+  if (message) input.setAttribute('aria-invalid', 'true');
+  else input.removeAttribute('aria-invalid');
+
+  return !message;
+}
+
+// Uma regra por campo: devolve a mensagem de erro, ou '' se estiver tudo certo.
+const validators = {
+  nome() {
+    return field('nome').value.trim().length >= 2 ? '' : 'Informe seu nome.';
+  },
+
+  email() {
+    const input = field('email');
+    if (!input.value.trim()) return 'Informe seu e-mail.';
+    if (!input.validity.valid) return 'Esse e-mail não parece válido.';
+    return '';
+  },
+
+  data() {
+    const date = dateInput.value;
+    if (!date) return 'Escolha uma data.';
+    if (date < nowInBrasilia().date) return 'Essa data já passou.';
+    if (!isWeekday(date)) return 'Atendemos de segunda a sexta.';
+    return '';
+  },
+
+  hora() {
+    // Só dá erro quando há data escolhida mas todos os horários dela já passaram
+    if (dateInput.value && !timeSelect.value) return 'Não há mais horários nesse dia. Escolha outra data.';
+    return '';
+  },
+
+  discord() {
+    const username = field('discord').value.trim();
+    if (!username) return 'Informe seu usuário do Discord.';
+    if (!/^@?[a-z0-9_.]{2,32}$/i.test(username)) return 'Use só letras, números, ponto ou _ (2 a 32 caracteres).';
+    return '';
+  },
 };
-menuBtn.addEventListener('click', () => setMenu(!links.classList.contains('open')));
-links.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
 
-// Copy e-mail with in-interface feedback
-const toast = document.getElementById('toast');
-let tt;
-const showToast = msg => { toast.textContent = msg; toast.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => toast.classList.remove('show'), 2200); };
-document.getElementById('copyMail').addEventListener('click', async () => {
-  try { await navigator.clipboard.writeText('vitinpimentel389@gmail.com'); showToast('E-mail copiado'); }
-  catch { showToast('Não foi possível copiar. Selecione o e-mail e copie manualmente.'); }
+function validateField(name) {
+  return setFieldError(name, validators[name]());
+}
+
+// Campos de texto validam ao sair deles; data e horário, assim que mudam
+for (const name of Object.keys(validators)) {
+  const eventName = (name === 'data' || name === 'hora') ? 'change' : 'blur';
+  field(name).addEventListener(eventName, () => validateField(name));
+}
+
+// Trocar a data recalcula os horários livres daquele dia
+dateInput.addEventListener('change', () => {
+  updateTimeSlots();
+  validateField('hora');
 });
 
-// Reveal on scroll
-const io = 'IntersectionObserver' in window && new IntersectionObserver(entries => {
-  entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
-}, { rootMargin: '0px 0px -8% 0px' });
-document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+// Estado inicial: não deixa escolher datas passadas e monta a lista de horários
+dateInput.min = nowInBrasilia().date;
+updateTimeSlots();
+
+// Os links "Pedir ›" dos serviços já deixam o tipo de projeto escolhido
+document.querySelectorAll('[data-tipo]').forEach(link => {
+  link.addEventListener('click', () => { field('tipo').value = link.dataset.tipo; });
+});
+
+
+/* =============================================================================
+   8. PEDIDO: e-mail e PDF
+   ============================================================================= */
+
+/** Lê o formulário e monta o pedido, com um protocolo novo. */
+function readOrder() {
+  const discord = field('discord').value.trim();
+  return {
+    // Protocolo: últimos 6 caracteres do horário atual em base 36 (curto e praticamente único)
+    id: 'VTN-' + Date.now().toString(36).toUpperCase().slice(-6),
+    nome: field('nome').value.trim(),
+    email: field('email').value.trim(),
+    data: dateInput.value,
+    hora: timeSelect.value,
+    tipo: field('tipo').value,
+    discord: discord.startsWith('@') ? discord : '@' + discord,
+    obs: field('obs').value.trim(),
+  };
+}
+
+/** Link mailto: com assunto e corpo já preenchidos com os dados do pedido. */
+function buildMailtoLink(order) {
+  const subject = `Orçamento ${order.id} — ${order.tipo} — ${formatShortDate(order.data)} ${order.hora}`;
+  const body = [
+    'Olá, Vitin!',
+    '',
+    'Quero agendar uma conversa sobre orçamento.',
+    '',
+    `Protocolo: ${order.id}`,
+    `Nome: ${order.nome}`,
+    `E-mail: ${order.email}`,
+    `Discord: ${order.discord}`,
+    `Tipo: ${order.tipo}`,
+    `Data: ${formatLongDate(order.data)}`,
+    `Horário: ${order.hora} (Brasília)`,
+    '',
+    'Observações:',
+    order.obs || '—',
+  ].join('\n');
+
+  return `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+/**
+ * Gera o PDF do agendamento (1 página A4) escrevendo o arquivo à mão, sem bibliotecas.
+ *
+ * - Usa as fontes que todo leitor de PDF já tem (Helvetica e Helvetica-Bold) com a
+ *   codificação WinAnsi, que só aceita caracteres Latin-1. Por isso travessões e aspas
+ *   curvas são trocados por versões simples e emojis são removidos.
+ * - As coordenadas são em pontos, com a origem no canto INFERIOR esquerdo
+ *   (a página A4 tem 595 × 842; quanto maior o y, mais alto na página).
+ */
+function makePDF(order) {
+  const DARK = '0.11 0.11 0.12';   // cores em RGB de 0 a 1
+  const GRAY = '0.43 0.43 0.45';
+  const WHITE = '1 1 1';
+  const MARGIN = 48;
+
+  const commands = [];             // instruções de desenho da página
+
+  /** Adapta o texto para o PDF: troca/remove o que não é Latin-1 e escapa \ ( ). */
+  function toPdfText(value) {
+    return String(value)
+      .replace(/[—–]/g, '-')
+      .replace(/[“”]/g, '"')
+      .replace(/[‘’]/g, "'")
+      .replace(/…/g, '...')
+      .replace(/[^\n\x20-\xff]/g, '')
+      .replace(/[\\()]/g, '\\$&');
+  }
+
+  function drawText(x, y, size, value, { bold = false, color = DARK } = {}) {
+    const font = bold ? 'F2' : 'F1';   // F1 = Helvetica, F2 = Helvetica-Bold (definidas lá embaixo)
+    commands.push(`BT /${font} ${size} Tf ${color} rg ${x} ${y} Td (${toPdfText(value)}) Tj ET`);
+  }
+
+  /** Linha horizontal fina de margem a margem. */
+  function drawDivider(y) {
+    commands.push(`0.88 0.88 0.9 RG 0.6 w ${MARGIN} ${y} m 547 ${y} l S`);
+  }
+
+  /** Quebra o texto em linhas de até maxChars caracteres, mantendo as quebras de linha originais. */
+  function wrapText(value, maxChars) {
+    return value.split('\n').flatMap(paragraph => {
+      const lines = [];
+      let line = '';
+      for (const word of paragraph.split(/\s+/)) {
+        const candidate = (line + ' ' + word).trim();
+        if (candidate.length > maxChars) {
+          lines.push(line);
+          line = word;
+        } else {
+          line = candidate;
+        }
+      }
+      lines.push(line);
+      return lines;
+    });
+  }
+
+  // --- Cabeçalho azul ---
+  const now = nowInBrasilia();
+  commands.push('0 0.443 0.89 rg 0 752 595 90 re f');   // retângulo azul no topo
+  drawText(MARGIN, 800, 22, 'VITIN Design Co.', { bold: true, color: WHITE });
+  drawText(MARGIN, 776, 11, 'Solicitação de agendamento de orçamento', { color: WHITE });
+
+  // --- Protocolo ---
+  drawText(MARGIN, 712, 18, `Protocolo ${order.id}`, { bold: true });
+  drawText(MARGIN, 694, 10, `Gerado em ${formatShortDate(now.date)} às ${now.time} (horário de Brasília)`, { color: GRAY });
+
+  // --- Dados do pedido: rótulo cinza, valor em negrito e uma linha embaixo ---
+  const rows = [
+    ['Nome', order.nome],
+    ['E-mail', order.email],
+    ['Discord', order.discord],
+    ['Tipo de projeto', order.tipo],
+    ['Data', formatLongDate(order.data)],
+    ['Horário', `${order.hora} (horário de Brasília)`],
+  ];
+  let y = 652;
+  for (const [label, value] of rows) {
+    drawText(MARGIN, y, 10, label, { color: GRAY });
+    drawText(MARGIN, y - 17, 13, value, { bold: true });
+    drawDivider(y - 28);
+    y -= 46;
+  }
+
+  // --- Observações (no máximo 11 linhas; o excesso vira "...") ---
+  drawText(MARGIN, y, 10, 'Observações', { color: GRAY });
+  let notes = wrapText(order.obs || '-', 88);
+  if (notes.length > 11) notes = [...notes.slice(0, 10), notes[10] + ' ...'];
+  notes.forEach((line, i) => drawText(MARGIN, y - 17 - i * 15, 11, line));
+
+  // --- Próximos passos e rodapé ---
+  drawText(MARGIN, 150, 12, 'Próximos passos', { bold: true });
+  const steps = [
+    '1. Crie um ticket no canal #tickets do Discord: ' + DISCORD,
+    '2. Envie este PDF dentro do seu ticket para a equipe.',
+    '3. Aguarde a confirmação da nossa equipe.',
+  ];
+  steps.forEach((line, i) => drawText(MARGIN, 130 - i * 17, 11, line));
+  drawDivider(64);
+  drawText(MARGIN, 46, 9, `VITIN Design Co.  ·  ${EMAIL}  ·  ${DISCORD}`, { color: GRAY });
+
+  // --- Montagem do arquivo ---
+  // Um PDF é uma lista de objetos numerados + uma tabela (xref) com a posição,
+  // em bytes, de cada objeto no arquivo.
+  const content = commands.join('\n');
+  const objects = [
+    /* 1 */ '<< /Type /Catalog /Pages 2 0 R >>',
+    /* 2 */ '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
+    /* 3 */ '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>',
+    /* 4 */ '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>',
+    /* 5 */ '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>',
+    /* 6 */ `<< /Length ${content.length} >>\nstream\n${content}\nendstream`,
+  ];
+
+  let pdf = '%PDF-1.4\n';
+  const offsets = [];
+  objects.forEach((object, i) => {
+    offsets.push(pdf.length);
+    pdf += `${i + 1} 0 obj\n${object}\nendobj\n`;
+  });
+
+  const xrefStart = pdf.length;
+  pdf += `xref\n0 ${objects.length + 1}\n`;
+  pdf += '0000000000 65535 f \n';
+  pdf += offsets.map(offset => `${String(offset).padStart(10, '0')} 00000 n \n`).join('');
+  pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\n`;
+  pdf += `startxref\n${xrefStart}\n%%EOF`;
+
+  // Todo caractere é Latin-1, então cada um vira exatamente 1 byte
+  // (e as posições contadas acima batem com o arquivo final).
+  const bytes = Uint8Array.from(pdf, char => char.charCodeAt(0) & 255);
+  return new Blob([bytes], { type: 'application/pdf' });
+}
+
+/** Faz o navegador baixar um Blob com o nome indicado. */
+function downloadFile(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const link = Object.assign(document.createElement('a'), { href: url, download: filename });
+  document.body.append(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+
+/* =============================================================================
+   9. POP-UP DEPOIS DE CONFIRMAR
+   ============================================================================= */
+
+const dialog = byId('doneDlg');
+const pdfStep = byId('stPdf');
+const sendStep = byId('stSend');
+let currentOrder = null;
+
+form.addEventListener('submit', event => {
+  event.preventDefault();
+
+  // Valida todos os campos (sem parar no primeiro) para mostrar todos os erros de uma vez,
+  // e leva o foco para o primeiro campo com problema.
+  const invalidFields = Object.keys(validators).filter(name => !validateField(name));
+  if (invalidFields.length) {
+    field(invalidFields[0]).focus();
+    return;
+  }
+
+  currentOrder = readOrder();
+
+  // Preenche o pop-up com o resumo e o link de e-mail deste pedido
+  byId('doneSum').innerHTML =
+    `<b>${escapeHtml(currentOrder.tipo)}</b> · ${escapeHtml(formatLongDate(currentOrder.data))} às ${escapeHtml(currentOrder.hora)}` +
+    `<br>Protocolo ${escapeHtml(currentOrder.id)}`;
+  byId('mailBtn').href = buildMailtoLink(currentOrder);
+
+  // Reinicia as etapas (caso seja o segundo pedido sem recarregar a página)
+  pdfStep.classList.remove('done');
+  sendStep.classList.remove('done');
+  sendStep.textContent = 'Ticket';
+
+  dialog.showModal();
+});
+
+byId('pdfBtn').addEventListener('click', () => {
+  downloadFile(makePDF(currentOrder), `agendamento-vitin-${currentOrder.id}.pdf`);
+  pdfStep.classList.add('done');
+});
+
+// A última etapa mostra o canal que o cliente escolheu
+byId('ticketBtn').addEventListener('click', () => {
+  sendStep.textContent = 'Ticket';
+  sendStep.classList.add('done');
+});
+byId('mailBtn').addEventListener('click', () => {
+  sendStep.textContent = 'E-mail';
+  sendStep.classList.add('done');
+});
+
+// Fecha pelo X ou clicando fora do pop-up (no fundo escurecido)
+byId('dlgClose').addEventListener('click', () => dialog.close());
+dialog.addEventListener('click', event => {
+  if (event.target === dialog) dialog.close();
+});
+
+
+/* =============================================================================
+   10. ANIMAÇÃO AO ROLAR
+   Cada .reveal ganha a classe "in" (que o faz aparecer) ao entrar na tela.
+   ============================================================================= */
+
+const revealElements = document.querySelectorAll('.reveal');
+
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        observer.unobserve(entry.target);   // anima só uma vez
+      }
+    }
+  }, { rootMargin: '0px 0px -8% 0px' });
+
+  revealElements.forEach(element => observer.observe(element));
+} else {
+  // Navegador antigo: mostra tudo de uma vez
+  revealElements.forEach(element => element.classList.add('in'));
+}
 </script>
 </body>
 </html>
